@@ -306,12 +306,13 @@ def main():
         print("For example:")
         print("> python main.py client")
         exit()
+    arg = sys.argv[1]
 
     # Check if the user wants shaders or not
-    shader_answer = check_shaders()
+    if arg != "server":
+        shader_answer = check_shaders()
 
     # Updater
-    arg = sys.argv[1]
     if arg == "client":
         path, file_name = get_zip_file("gamepath.txt", "client")
         update_client(path, file_name, shader_answer)
