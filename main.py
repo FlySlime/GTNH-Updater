@@ -227,6 +227,7 @@ def update_server(path, file_name):
     ]
 
     # Move additional mods, if any, to the server folder
+    print("Searching for additional mods..." + total_progress())
     additional_mods_dir = "./additional-mods-server"
     copy_dir_to_game(additional_mods_dir, path)
 
@@ -309,6 +310,7 @@ def main():
     arg = sys.argv[1]
 
     # Check if the user wants shaders or not
+    shader_answer = ""
     if arg != "server":
         shader_answer = check_shaders()
 
