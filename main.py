@@ -263,6 +263,7 @@ def update_server(path, file_name):
 
 
 def main():
+    # Check for invalid arguments
     try:
         sys.argv[1]
     except:
@@ -271,6 +272,7 @@ def main():
         print("> python main.py client")
         exit()
 
+    # Check if the user wants shaders or not. Remembers the answer.
     shader_file = "shaders.txt"
     if not os.path.isfile(shader_file):
         shader_answer = input("Would you like to install shaders? (y/n)\n> ")
@@ -296,10 +298,12 @@ def main():
             print("NOTE: Found " + shader_file + ": Shaders will not be installed.")
         print()
 
+    # Adjust the progress bar
     if shader_answer == "y":
         global max_progress
         max_progress = "5"
 
+    # Updater
     arg = sys.argv[1]
     if arg == "client":
         path, file_name = get_zip_file("gamepath.txt", "client")
