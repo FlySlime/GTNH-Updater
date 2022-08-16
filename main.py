@@ -257,8 +257,15 @@ def main():
         update_server(path, file_name)
     elif arg == "both":
         path1, file_name1 = get_zip_file("gamepath.txt", "client")
-        path2, file_name2 = get_zip_file("serverpath.txt", "server")
+        script_directory = os.getcwd()
         update_client(path1, file_name1)
+        print()
+
+        global progress_bar
+        progress_bar = 0
+        os.chdir(script_directory)
+
+        path2, file_name2 = get_zip_file("serverpath.txt", "server")
         update_server(path2, file_name2)
     else:
         print("ERROR: Invalid argument.")
