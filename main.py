@@ -262,16 +262,7 @@ def update_server(path, file_name):
     add_dir_to_game(additional_mods_dir, mods_dir)
 
 
-def main():
-    # Check for invalid arguments
-    try:
-        sys.argv[1]
-    except:
-        print("ERROR: No arguments given. Use 'client', 'server', or 'both'.\n")
-        print("For example:")
-        print("> python main.py client")
-        exit()
-
+def check_shaders():
     # Check if the user wants shaders or not. Remembers the answer.
     shader_file = "shaders.txt"
     if not os.path.isfile(shader_file):
@@ -302,6 +293,22 @@ def main():
     if shader_answer == "y":
         global max_progress
         max_progress = "5"
+
+    return shader_answer
+
+
+def main():
+    # Check for invalid arguments
+    try:
+        sys.argv[1]
+    except:
+        print("ERROR: No arguments given. Use 'client', 'server', or 'both'.\n")
+        print("For example:")
+        print("> python main.py client")
+        exit()
+
+    # Check if the user wants shaders or not
+    shader_answer = check_shaders()
 
     # Updater
     arg = sys.argv[1]
