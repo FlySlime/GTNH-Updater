@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import os
+from os.path import isfile
 import shutil
 import sys
 import zipfile
@@ -40,7 +41,7 @@ def get_zip_file(path_file, arg):
     else:
         with open(path_file, "r") as f:
             path = f.readline()
-        print("Using previous path stored in '" + path_file + "': " + path + "\n")
+        print("NOTE: Using previous path stored in '" + path_file + "': " + path + "\n")
 
     # Tests for some cases where something might go wrong
     file_name = ""
@@ -78,8 +79,9 @@ def get_zip_file(path_file, arg):
     return path, file_name
 
 
-def move_dir_to_game(folder, path):
-    print("Searching for additional mods..." + total_progress())
+def copy_dir_to_game(folder, path):
+    if os.path.exists(path + "/" + folder):
+        return -1
     if os.path.exists(folder):
         shutil.copytree(folder, path + "/" + folder)
     else:
@@ -138,7 +140,7 @@ def extract_zip(file, pwd=None):
     os.remove(file)
 
 
-def update_client(path, file_name):
+def update_client(path, file_name, shader_answer):
     to_update = [
         "mods",
         "resourcepacks",
@@ -149,8 +151,15 @@ def update_client(path, file_name):
     ]
 
     # Move additional mods, if any, to the game folder
+    print("Searching for additional mods..." + total_progress())
     additional_mods_dir = "./additional-mods-client"
-    move_dir_to_game(additional_mods_dir, path)
+    copy_dir_to_game(additional_mods_dir, path)
+
+    # Move shaders folder, if user choose so
+    shaders_dir = "./shaders"
+    if shader_answer == "y":
+        print("Installing shaders..." + total_progress())
+        copy_dir_to_game(shaders_dir, path)
 
     # Move into the client directory
     os.chdir(path)
@@ -169,6 +178,20 @@ def update_client(path, file_name):
     # Add the additional mods to the mod folder
     mods_dir = "./mods"
     add_dir_to_game(additional_mods_dir, mods_dir)
+
+    # Add shaders, insert everything in "shaderpacks" unless it is "OptiFine"
+    if shader_answer == "y":
+        shader_files = os.listdir(shaders_dir)
+        for file in shader_files:
+            if file.casefold().startswith("OptiFine".casefold()):
+                shutil.move(shaders_dir + "/" + file, os.path.join("mods/", file))
+            else:
+                shutil.move(
+                    shaders_dir + "/" + file, os.path.join("shaderpacks/", file)
+                )
+
+        # Cleanup
+        shutil.rmtree(shaders_dir)
 
 
 def update_server(path, file_name):
@@ -205,7 +228,7 @@ def update_server(path, file_name):
 
     # Move additional mods, if any, to the server folder
     additional_mods_dir = "./additional-mods-server"
-    move_dir_to_game(additional_mods_dir, path)
+    copy_dir_to_game(additional_mods_dir, path)
 
     # Move into the server directory
     os.chdir(path)
@@ -248,17 +271,46 @@ def main():
         print("> python main.py client")
         exit()
 
+    shader_file = "shaders.txt"
+    if not os.path.isfile(shader_file):
+        shader_answer = input("Would you like to install shaders? (y/n)\n> ")
+        print()
+        if shader_answer == "y":
+            print(
+                "NOTE: Shaders will be installed and this decision will be saved, if you change your mind then remove 'shaders.txt'"
+            )
+        else:
+            print(
+                "NOTE: Shaders will not be installed and this decision will be saved, if you change your mind then please remove 'shaders.txt'"
+            )
+        print()
+
+        with open(shader_file, "w") as f:
+            f.write(shader_answer)
+    else:
+        with open(shader_file, "r") as f:
+            shader_answer = f.readline()
+        if shader_answer == "y":
+            print("NOTE: Found " + shader_file + ": Shaders will be installed.")
+        else:
+            print("NOTE: Found " + shader_file + ": Shaders will not be installed.")
+        print()
+
+    if shader_answer == "y":
+        global max_progress
+        max_progress = "5"
+
     arg = sys.argv[1]
     if arg == "client":
         path, file_name = get_zip_file("gamepath.txt", "client")
-        update_client(path, file_name)
+        update_client(path, file_name, shader_answer)
     elif arg == "server":
         path, file_name = get_zip_file("serverpath.txt", "server")
         update_server(path, file_name)
     elif arg == "both":
         path1, file_name1 = get_zip_file("gamepath.txt", "client")
         script_directory = os.getcwd()
-        update_client(path1, file_name1)
+        update_client(path1, file_name1, shader_answer)
         print()
 
         global progress_bar
