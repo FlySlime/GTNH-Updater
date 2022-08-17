@@ -329,6 +329,8 @@ def main():
 
         global progress_bar
         progress_bar = 0
+        global max_progress
+        max_progress = "4"
         os.chdir(script_directory)
 
         path2, file_name2 = get_zip_file("serverpath.txt", "server")
