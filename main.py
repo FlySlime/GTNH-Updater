@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import os
-from os.path import isfile
+from os.path import isdir, isfile
 import shutil
 import sys
 import zipfile
@@ -181,6 +181,8 @@ def update_client(path, file_name, shader_answer):
 
     # Add shaders, insert everything in "shaderpacks" unless it is "OptiFine"
     if shader_answer == "y":
+        if not os.path.isdir("shaderpacks"):
+            os.mkdir("shaderpacks")
         shader_files = os.listdir(shaders_dir)
         for file in shader_files:
             if file.casefold().startswith("OptiFine".casefold()):
