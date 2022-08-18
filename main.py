@@ -96,18 +96,38 @@ def add_dir_to_game(folder, path):
             mod_name = os.path.join(folder, mod)
             shutil.move(mod_name, path)
         # Delete the folder from the game directory
-        shutil.rmtree(folder)
+        remove(folder)
+
+
+def add_shaders_to_game(shaders_dir):
+    # Add shaders & configs
+    if not os.path.isdir("shaderpacks"):
+        os.mkdir("shaderpacks")
+
+    shader_files = os.listdir(shaders_dir)
+    for file in shader_files:
+        if file.casefold().startswith("OptiFine".casefold()):
+            shutil.move(shaders_dir + "/" + file, os.path.join("mods/", file))
+        elif file.casefold().startswith("options".casefold()):
+            remove(file)
+            shutil.move(shaders_dir + "/" + file, os.path.join(file))
+        else:
+            shutil.move(shaders_dir + "/" + file, os.path.join("shaderpacks/", file))
+
+    # Cleanup
+    remove(shaders_dir)
 
 
 def remove(object):
+    """Smart remove function, check if file exist first"""
     if os.path.isfile(object) or os.path.islink(object):
         os.remove(object)
     elif os.path.isdir(object):
         shutil.rmtree(object)
 
 
-# Remove all config files/folders except a select few
 def remove_configs(protected):
+    """Remove all config files/folders except a select few"""
     try:
         config_dir = "./config"
         configs = os.listdir(config_dir)
