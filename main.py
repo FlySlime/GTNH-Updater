@@ -175,6 +175,41 @@ def extract_zip(file, pwd=None):
     remove(file)
 
 
+def check_shaders():
+    # Check if the user wants shaders or not. Remembers the answer.
+    shader_file = "shaders.txt"
+    if not os.path.isfile(shader_file):
+        shader_answer = input("Would you like to install shaders? (y/n)\n> ")
+        print()
+        if shader_answer == "y":
+            print(
+                "NOTE: Shaders will be installed and this decision will be saved, if you change your mind then remove 'shaders.txt'"
+            )
+        else:
+            print(
+                "NOTE: Shaders will not be installed and this decision will be saved, if you change your mind then please remove 'shaders.txt'"
+            )
+        print()
+
+        with open(shader_file, "w") as f:
+            f.write(shader_answer)
+    else:
+        with open(shader_file, "r") as f:
+            shader_answer = f.readline()
+        if shader_answer == "y":
+            print("NOTE: Found " + shader_file + ": Shaders will be installed.")
+        else:
+            print("NOTE: Found " + shader_file + ": Shaders will not be installed.")
+        print()
+
+    # Adjust the progress bar
+    if shader_answer == "y":
+        global max_progress
+        max_progress = "5"
+
+    return shader_answer
+
+
 def update_client(path, file_name, shader_answer):
     to_update = [
         "mods",
@@ -286,41 +321,6 @@ def update_server(path, file_name):
     # NOTE: Check the version of this mod every "server-pack" update
     mods_dir = "./mods"
     add_dir_to_game(additional_mods_dir, mods_dir)
-
-
-def check_shaders():
-    # Check if the user wants shaders or not. Remembers the answer.
-    shader_file = "shaders.txt"
-    if not os.path.isfile(shader_file):
-        shader_answer = input("Would you like to install shaders? (y/n)\n> ")
-        print()
-        if shader_answer == "y":
-            print(
-                "NOTE: Shaders will be installed and this decision will be saved, if you change your mind then remove 'shaders.txt'"
-            )
-        else:
-            print(
-                "NOTE: Shaders will not be installed and this decision will be saved, if you change your mind then please remove 'shaders.txt'"
-            )
-        print()
-
-        with open(shader_file, "w") as f:
-            f.write(shader_answer)
-    else:
-        with open(shader_file, "r") as f:
-            shader_answer = f.readline()
-        if shader_answer == "y":
-            print("NOTE: Found " + shader_file + ": Shaders will be installed.")
-        else:
-            print("NOTE: Found " + shader_file + ": Shaders will not be installed.")
-        print()
-
-    # Adjust the progress bar
-    if shader_answer == "y":
-        global max_progress
-        max_progress = "5"
-
-    return shader_answer
 
 
 def update_updater():
