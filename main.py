@@ -328,7 +328,7 @@ def check_shaders():
 
 
 def update_updater():
-    print("Updating the updater...")
+    print("Updating the updater...\n")
     zip_name = "GTNH-Updater-latest.zip"
     github_file_name = "GTNH-Updater-main"
 
