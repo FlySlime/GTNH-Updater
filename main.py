@@ -347,6 +347,7 @@ def update_updater():
         shutil.move(github_file_name + "/" + object, object)
 
     # Cleanup
+    remove(zip_name)
     remove(github_file_name)
     print(
         "UPDATE COMPLETE: You now have the latest version of GTNH-updater, go inject greg!"
