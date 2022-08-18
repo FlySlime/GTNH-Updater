@@ -179,7 +179,9 @@ def check_shaders():
     # Check if the user wants shaders or not. Remembers the answer.
     shader_file = "shaders.txt"
     if not os.path.isfile(shader_file):
-        shader_answer = input("Would you like to install shaders? (y/n)\n> ")
+        shader_answer = input(
+            "Would you like to install shaders? Expect a drop in 10-40 fps. (y/n)\n> "
+        )
         print()
         if shader_answer == "y":
             print(
