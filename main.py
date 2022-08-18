@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 
+#!/usr/bin/env python3
+
 import os
 import shutil
 import sys
 import zipfile
+import urllib.request
 
 # Global variables
 progress_bar = 0
@@ -324,6 +327,32 @@ def check_shaders():
     return shader_answer
 
 
+def update_updater():
+    print("Updating the updater...")
+    zip_name = "GTNH-Updater-latest.zip"
+    github_file_name = "GTNH-Updater-main"
+
+    # Download latest version
+    urllib.request.urlretrieve(
+        "https://github.com/FlySlime/GTNH-Updater/archive/refs/heads/main.zip",
+        zip_name,
+    )
+    with zipfile.ZipFile(zip_name, "r") as zip_ref:
+        zip_ref.extractall(".")
+
+    # Replace all files with the latest version
+    objects = os.listdir(github_file_name)
+    for object in objects:
+        remove(object)
+        shutil.move(github_file_name + "/" + object, object)
+
+    # Cleanup
+    remove(github_file_name)
+    print(
+        "UPDATE COMPLETE: You now have the latest version of GTNH-updater, go inject greg!"
+    )
+
+
 def main():
     # Check for invalid arguments
     try:
@@ -334,6 +363,11 @@ def main():
         print("> python main.py client")
         exit()
     arg = sys.argv[1]
+
+    if arg == "updater":
+        # Update the "GTNH-Updater" by pulling latest zip from GitHub
+        update_updater()
+        exit()
 
     # Check if the user wants shaders or not
     shader_answer = ""
