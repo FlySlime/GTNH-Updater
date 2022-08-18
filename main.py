@@ -33,10 +33,6 @@ def get_zip_file(path_file, arg):
             )
         else:
             print(
-                "WARNING: Before updating the server, make sure there is a folder called 'additional-mods-server' where the script is stored and move the 'JourneyMapServer' mod there!"
-            )
-            input("Press any key to continue...\n")
-            print(
                 "Where is the GT New Horizons server located? (Where 'config', 'mods', etc, are stored.)"
             )
 
