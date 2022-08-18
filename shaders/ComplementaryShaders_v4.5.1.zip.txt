@@ -1,9 +1,10 @@
-#Wed Aug 17 18:06:40 CEST 2022
-shadowDistance=128.0
-REFLECTION=false
-BLOCK_ENTITY_SHADOWS=false
-SHADOWS=false
-shadowMapResolution=1024
-SPECULAR_SKY_REF=false
+#Thu Aug 18 14:41:35 CEST 2022
 REFLECTION_SPECULAR=false
+SHADOWS=false
+BLOCKLIGHT_I=0.35
 ENTITY_SHADOWS=false
+shadowDistance=128.0
+SPECULAR_SKY_REF=false
+REFLECTION=false
+shadowMapResolution=1024
+BLOCK_ENTITY_SHADOWS=false

@@ -1,4 +1,4 @@
-#Thu Aug 18 11:56:01 CEST 2022
+#Thu Aug 18 14:41:36 CEST 2022
 shaderPack=ComplementaryShaders_v4.5.1.zip
 antialiasingLevel=0
 normalMapEnabled=true
