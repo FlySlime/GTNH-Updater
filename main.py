@@ -1,25 +1,28 @@
 #!/usr/bin/env python3
 
 import os
-from os.path import isdir, isfile
 import shutil
 import sys
 import zipfile
 
+# Global variables
 progress_bar = 0
 max_progress = "4"
 
 
-# Keeps count of progress and returns the string in format (X/Y)
 def total_progress():
+    """Keeps count of progress and returns the string in format (X/Y)."""
     global progress_bar
     progress_bar += 1
     return "(" + str(progress_bar) + "/" + max_progress + ")"
 
 
-# Acquire the path for GregTech client/server, either if it stored in file or not.
-# Also checks if odd inputs, and then moves the zip into the directory.
 def get_zip_file(path_file, arg):
+    """Acquire the path for GregTech client/server.
+
+    Check if the user has already run the script before -> Use the path saved in "gamepath" or "serverpath"
+    Check for odd inputs -> Stop the program and ask gives appropriate error message.
+    """
     if not os.path.exists(path_file):
         if arg == "client":
             print(
@@ -66,12 +69,12 @@ def get_zip_file(path_file, arg):
         )
         exit()
 
-    # Change to the game/server directory
+    # Copy the update to game directory
     try:
         shutil.copy(file_name, path + "/" + file_name)
     except:
         print("ERROR: Invalid path.")
-        os.remove(path_file)
+        remove(path_file)
         exit()
 
     print("GregTech zip has been found... " + total_progress())
@@ -80,6 +83,10 @@ def get_zip_file(path_file, arg):
 
 
 def copy_dir_to_game(folder, path):
+    """Copy a folder to a certain path.
+
+    Check if folder exists before performing the action
+    """
     if os.path.exists(path + "/" + folder):
         return -1
     if os.path.exists(folder):
@@ -90,17 +97,26 @@ def copy_dir_to_game(folder, path):
 
 
 def add_dir_to_game(folder, path):
+    """Add all files in directory to a certain folder.
+
+    Check if folder exists before performing the action
+    """
     if os.path.exists(folder):
-        add_mods = os.listdir(folder)
-        for mod in add_mods:
-            mod_name = os.path.join(folder, mod)
-            shutil.move(mod_name, path)
+        files = os.listdir(folder)
+        for modfile in files:
+            file_name = os.path.join(folder, modfile)
+            shutil.move(file_name, path)
         # Delete the folder from the game directory
         remove(folder)
 
 
 def add_shaders_to_game(shaders_dir):
-    # Add shaders & configs
+    """Add shaders & configs.
+
+    If OptiFine -> Mod foler
+    If OptiFine config -> Game folder
+    Otherwise, assume it is a shader or shader config -> Shader folder
+    """
     if not os.path.isdir("shaderpacks"):
         os.mkdir("shaderpacks")
 
@@ -119,7 +135,7 @@ def add_shaders_to_game(shaders_dir):
 
 
 def remove(object):
-    """Smart remove function, check if file exist first"""
+    """Smart remove function, check if file exist first."""
     if os.path.isfile(object) or os.path.islink(object):
         os.remove(object)
     elif os.path.isdir(object):
@@ -127,7 +143,7 @@ def remove(object):
 
 
 def remove_configs(protected):
-    """Remove all config files/folders except a select few"""
+    """Remove all config files/folders except a select few."""
     try:
         config_dir = "./config"
         configs = os.listdir(config_dir)
@@ -141,8 +157,8 @@ def remove_configs(protected):
         )
 
 
-# Extract and remove the zip file
 def extract_zip(file, pwd=None):
+    """Extract the update, and then cleanup."""
     print("Exctracting files..." + total_progress())
 
     # https://stackoverflow.com/questions/61351290/unzip-an-archive-without-overwriting-existing-files
@@ -157,7 +173,7 @@ def extract_zip(file, pwd=None):
                 zf.extract(arch_info, ".", pwd)
 
     print("Cleaning up..." + total_progress() + "\n")
-    os.remove(file)
+    remove(file)
 
 
 def update_client(path, file_name, shader_answer):
@@ -199,21 +215,9 @@ def update_client(path, file_name, shader_answer):
     mods_dir = "./mods"
     add_dir_to_game(additional_mods_dir, mods_dir)
 
-    # Add shaders, insert everything in "shaderpacks" unless it is "OptiFine"
+    # Add shaders & configs
     if shader_answer == "y":
-        if not os.path.isdir("shaderpacks"):
-            os.mkdir("shaderpacks")
-        shader_files = os.listdir(shaders_dir)
-        for file in shader_files:
-            if file.casefold().startswith("OptiFine".casefold()):
-                shutil.move(shaders_dir + "/" + file, os.path.join("mods/", file))
-            else:
-                shutil.move(
-                    shaders_dir + "/" + file, os.path.join("shaderpacks/", file)
-                )
-
-        # Cleanup
-        shutil.rmtree(shaders_dir)
+        add_shaders_to_game(shaders_dir)
 
 
 def update_server(path, file_name):
@@ -262,7 +266,7 @@ def update_server(path, file_name):
 
     # Remove the old directories except config
     for dir in dirs_to_update:
-        shutil.rmtree(dir)
+        remove(dir)
 
     # Extract the new files
     extract_zip(file_name)
@@ -273,11 +277,11 @@ def update_server(path, file_name):
     for mod in mods:
         for client_mod in client_side_mods:
             if mod.casefold().startswith(client_mod.casefold()):
-                os.remove(os.path.join(mods_dir, mod))
+                remove(os.path.join(mods_dir, mod))
 
-    os.remove("README.md")
-    shutil.rmtree("resourcepacks")
-    shutil.rmtree("resources")
+    remove("README.md")
+    remove("resourcepacks")
+    remove("resources")
 
     # Add the server version of "JourneyMap", and other additional mods
     # NOTE: Check the version of this mod every "server-pack" update
