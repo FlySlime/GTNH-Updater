@@ -355,7 +355,9 @@ def main():
     try:
         sys.argv[1]
     except:
-        print("ERROR: No arguments given. Use 'client', 'server', or 'both'.\n")
+        print(
+            "ERROR: No arguments given. Use 'client', 'server', 'updater', or 'both'.\n"
+        )
         print("For example:")
         print("> python main.py client")
         exit()
