@@ -20,11 +20,13 @@ def total_progress():
     return "(" + str(progress_bar) + "/" + max_progress + ")"
 
 
-def get_zip_file(path_file, arg):
+def get_game_path(path_file, arg):
     """Acquire the path for GregTech client/server.
 
     Check if the user has already run the script before -> Use the path saved in "gamepath" or "serverpath"
     Check for odd inputs -> Stop the program and ask gives appropriate error message.
+
+    If zip file is found in current directory -> Copy it over to game directory
     """
     if not os.path.exists(path_file):
         if arg == "client":
@@ -46,15 +48,15 @@ def get_zip_file(path_file, arg):
         print("NOTE: Using previous path stored in '" + path_file + "': " + path + "\n")
 
     # Tests for some cases where something might go wrong
-    file_name = ""
+    zip_file = ""
     count = 0
     for file in os.listdir("."):
         if file.endswith(".zip"):
-            file_name = file
+            zip_file = file
             count += 1
 
     # Exit program if odd input
-    if file_name == "":
+    if zip_file == "":
         print(
             "ERROR: Couldn't find a zip file to update with in the current directory."
         )
@@ -62,7 +64,7 @@ def get_zip_file(path_file, arg):
     elif count >= 2:
         print("ERROR: Too many zip files found.")
         exit()
-    elif os.path.getsize(file_name) < 300000000:
+    elif os.path.getsize(zip_file) < 300000000:
         print(
             "ERROR: Zip file seems to be too small, double-check it's the GregTech update provided in the Discord server. (300+ MB check)"
         )
@@ -70,7 +72,7 @@ def get_zip_file(path_file, arg):
 
     # Copy the update to game directory
     try:
-        shutil.copy(file_name, path + "/" + file_name)
+        shutil.copy(zip_file, path + "/" + zip_file)
     except:
         print("ERROR: Invalid path.")
         remove(path_file)
@@ -78,7 +80,7 @@ def get_zip_file(path_file, arg):
 
     print("GregTech zip has been found... " + total_progress())
 
-    return path, file_name
+    return path, zip_file
 
 
 def copy_dir_to_game(folder, path):
@@ -375,25 +377,26 @@ def main():
 
     # Updater
     if arg == "client":
-        path, file_name = get_zip_file("gamepath.txt", "client")
-        update_client(path, file_name, shader_answer)
+        path, zip_file = get_game_path("gamepath.txt", "client")
+        update_client(path, zip_file, shader_answer)
     elif arg == "server":
-        path, file_name = get_zip_file("serverpath.txt", "server")
-        update_server(path, file_name)
+        path, zip_file = get_game_path("serverpath.txt", "server")
+        update_server(path, zip_file)
     elif arg == "both":
-        path1, file_name1 = get_zip_file("gamepath.txt", "client")
+        path, zip_file = get_game_path("gamepath.txt", "client")
         script_directory = os.getcwd()
-        update_client(path1, file_name1, shader_answer)
+        update_client(path, zip_file, shader_answer)
         print()
 
+        # Refresh progress
         global progress_bar
         progress_bar = 0
         global max_progress
         max_progress = "4"
         os.chdir(script_directory)
 
-        path2, file_name2 = get_zip_file("serverpath.txt", "server")
-        update_server(path2, file_name2)
+        path, zip_file = get_game_path("serverpath.txt", "server")
+        update_server(path, zip_file)
     else:
         print("ERROR: Invalid argument.")
         exit()
