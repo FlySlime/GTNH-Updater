@@ -37,7 +37,7 @@ def get_game_path(path_file, arg):
             )
 
         path = input("> ")
-        print("\n")
+        print()
         with open(path_file, "w") as f:
             f.write(path)
     else:
@@ -191,7 +191,7 @@ def check_shaders():
             print(
                 "NOTE: Shaders will not be installed and this decision will be saved, if you change your mind then please remove 'shaders.txt'"
             )
-        print("\n")
+        print()
 
         with open(shader_file, "w") as f:
             f.write(shader_answer)
