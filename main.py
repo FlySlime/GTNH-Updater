@@ -325,8 +325,8 @@ def update_server(path, file_name):
     add_dir_to_game(additional_mods_dir, mods_dir)
 
 
-def update_updater():
-    print("Updating the updater...\n")
+def update_script():
+    print("Pulling the latest version of 'GTNH-Updater'...\n")
     zip_name = "GTNH-Updater-latest.zip"
     github_file_name = "GTNH-Updater-main"
 
@@ -347,7 +347,7 @@ def update_updater():
     # Cleanup
     remove(zip_name)
     remove(github_file_name)
-    print("UPDATE COMPLETE: You now have the latest version of GTNH-updater!")
+    print("UPDATE COMPLETE: You now have the latest version of 'GTNH-Updater'.")
 
 
 def main():
@@ -356,16 +356,16 @@ def main():
         sys.argv[1]
     except:
         print(
-            "ERROR: No arguments given. Use 'client', 'server', 'updater', or 'both'.\n"
+            "ERROR: No arguments given. Use 'client', 'server', 'script', or 'both'.\n"
         )
         print("For example:")
         print("> python main.py client")
         exit()
     arg = sys.argv[1]
 
-    if arg == "updater":
+    if arg == "script":
         # Update the "GTNH-Updater" by pulling latest zip from GitHub
-        update_updater()
+        update_script()
         exit()
 
     # Check if the user wants shaders or not
