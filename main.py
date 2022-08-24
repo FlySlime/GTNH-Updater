@@ -274,6 +274,7 @@ def update_server(path, file_name):
         "CustomMainMenu",
         "defaultserverlist",
         "DefaultWorldGenerator",
+        "fastcraft",
         "IC2+Crop+Plugin",
         "inventorytweaks",
         "itlt",
@@ -284,7 +285,6 @@ def update_server(path, file_name):
         "OptiFine",
         "overloadedarmorbar",
         "ResourceLoader",
-        "tcnodetracker",
         "torohealth",
     ]
 
