@@ -297,7 +297,7 @@ def update_server(path, file_name):
     os.chdir(path)
 
     # Remove certain config folders
-    protected = ["aroma1997", "JourneyMapServer", "opencomputers", "Morpheus.cfg"]
+    protected = ["aroma1997", "JourneyMapServer", "Morpheus.cfg"]
     remove_configs(protected)
 
     # Remove the old directories except config
