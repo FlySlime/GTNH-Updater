@@ -134,7 +134,7 @@ def add_shaders_to_game(shaders_dir):
 
 
 def remove(object):
-    """Smart remove function, check if file exist first."""
+    """Smart remove function, check if file/folder exists first."""
     if os.path.isfile(object) or os.path.islink(object):
         os.remove(object)
     elif os.path.isdir(object):
