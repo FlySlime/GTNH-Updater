@@ -330,18 +330,26 @@ def update_script():
     zip_name = "GTNH-Updater-latest.zip"
     github_file_name = "GTNH-Updater-main"
 
+    # Remove old files, except protected ones
+    protected = [".git", "gamepath.txt", "serverpath.txt", "shaders.txt"]
+    objects = os.listdir(".")
+    for object in objects:
+        if not object in protected:
+            remove(object)
+
     # Download latest version
     urllib.request.urlretrieve(
         "https://github.com/FlySlime/GTNH-Updater/archive/refs/heads/main.zip",
         zip_name,
     )
+
+    # Extract the zip file
     with zipfile.ZipFile(zip_name, "r") as zip_ref:
         zip_ref.extractall(".")
 
-    # Replace all files with the latest version
+    # Move the files into the script directory
     objects = os.listdir(github_file_name)
     for object in objects:
-        remove(object)
         shutil.move(github_file_name + "/" + object, object)
 
     # Cleanup
