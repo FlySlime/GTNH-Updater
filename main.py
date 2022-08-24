@@ -330,10 +330,12 @@ def update_script():
     zip_name = "GTNH-Updater-latest.zip"
     github_file_name = "GTNH-Updater-main"
 
-    # Remove old files, except protected ones
+    # Remove old files, except protected files and zip files
     protected = [".git", "gamepath.txt", "serverpath.txt", "shaders.txt"]
     objects = os.listdir(".")
     for object in objects:
+        if object.endswith(".zip"):
+            continue
         if not object in protected:
             remove(object)
 
