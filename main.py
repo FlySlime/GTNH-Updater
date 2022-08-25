@@ -391,8 +391,11 @@ def main():
         path, zip_file = get_game_path("serverpath.txt", "server")
         update_server(path, zip_file)
     elif arg == "both":
-        path, zip_file = get_game_path("gamepath.txt", "client")
+        # Save script directory so we can return to it for server update
         script_directory = os.getcwd()
+
+        # Client update
+        path, zip_file = get_game_path("gamepath.txt", "client")
         update_client(path, zip_file, shader_answer)
         print()
 
@@ -401,8 +404,11 @@ def main():
         progress_bar = 0
         global max_progress
         max_progress = "4"
+
+        # Jump to script directory
         os.chdir(script_directory)
 
+        # Server update
         path, zip_file = get_game_path("serverpath.txt", "server")
         update_server(path, zip_file)
     else:
