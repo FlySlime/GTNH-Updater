@@ -22,9 +22,6 @@ def get_game_path(path_file, arg):
     """Acquire the path for GregTech client/server.
 
     Check if the user has already run the script before -> Use the path saved in "gamepath" or "serverpath"
-    Check for odd inputs -> Stop the program and ask gives appropriate error message.
-
-    If zip file is found in current directory -> Copy it over to game directory
     """
     if not os.path.exists(path_file):
         if arg == "client":
@@ -49,6 +46,14 @@ def get_game_path(path_file, arg):
 
 
 def get_zip_file(path_file, path):
+    """Searches for zip file in current directory
+
+    User can decide if they want to use "automatic" download, checks text file for updated zip.
+    Otherwise, use zip file in current directory.
+
+    Check for odd inputs -> Stop the program and ask gives appropriate error message.
+    If zip file is found in current directory -> Copy it over to game directory
+    """
     # Tests for some cases where something might go wrong
     zip_file = ""
     count = 0
