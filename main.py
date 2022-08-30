@@ -45,6 +45,10 @@ def get_game_path(path_file, arg):
             path = f.readline()
         print("NOTE: Using previous path stored in '" + path_file + "': " + path + "\n")
 
+    return path
+
+
+def get_zip_file(path_file, path):
     # Tests for some cases where something might go wrong
     zip_file = ""
     count = 0
@@ -78,7 +82,7 @@ def get_game_path(path_file, arg):
 
     print("GregTech zip has been found... " + total_progress())
 
-    return path, zip_file
+    return zip_file
 
 
 def copy_dir_to_game(folder, path):
@@ -383,19 +387,25 @@ def main():
     if arg != "server":
         shader_answer = check_shaders()
 
+    client_path = "gamepath.txt"
+    server_path = "serverpath.txt"
+
     # Updater
     if arg == "client":
-        path, zip_file = get_game_path("gamepath.txt", "client")
+        path = get_game_path(client_path, "client")
+        zip_file = get_zip_file(client_path, path)
         update_client(path, zip_file, shader_answer)
     elif arg == "server":
-        path, zip_file = get_game_path("serverpath.txt", "server")
+        path = get_game_path(server_path, "server")
+        zip_file = get_zip_file(server_path, path)
         update_server(path, zip_file)
     elif arg == "both":
         # Save script directory so we can return to it for server update
         script_directory = os.getcwd()
 
         # Client update
-        path, zip_file = get_game_path("gamepath.txt", "client")
+        path = get_game_path(client_path, "client")
+        zip_file = get_zip_file(client_path, path)
         update_client(path, zip_file, shader_answer)
         print()
 
@@ -409,7 +419,8 @@ def main():
         os.chdir(script_directory)
 
         # Server update
-        path, zip_file = get_game_path("serverpath.txt", "server")
+        path = get_game_path(server_path, "server")
+        zip_file = get_zip_file(server_path, path)
         update_server(path, zip_file)
     else:
         print("ERROR: Invalid argument.")
