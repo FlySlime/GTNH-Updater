@@ -46,7 +46,7 @@ def get_game_path(path_file, arg):
 
 
 def get_zip_file(path_file, path):
-    """Searches for zip file in current directory
+    """Searches for zip file in current directory.
 
     TODO: User can decide if they want to use "automatic" download, checks text file for updated zip.
     Otherwise, use zip file in current directory.
