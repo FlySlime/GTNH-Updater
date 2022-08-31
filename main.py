@@ -165,8 +165,8 @@ def remove_configs(protected):
         )
 
 
-def extract_zip(file, pwd=None):
-    """Extract the update, and then cleanup."""
+def extract_game_zip(file, pwd=None):
+    """Extract the update file without overwriting existing files."""
     print("Exctracting files..." + total_progress())
 
     # https://stackoverflow.com/questions/61351290/unzip-an-archive-without-overwriting-existing-files
@@ -254,7 +254,7 @@ def update_client(path, file_name, shader_answer):
         remove(file)
 
     # Extract and update the game
-    extract_zip(file_name)
+    extract_game_zip(file_name)
 
     # Add the additional mods to the mod folder
     mods_dir = "./mods"
@@ -314,7 +314,7 @@ def update_server(path, file_name):
         remove(dir)
 
     # Extract the new files
-    extract_zip(file_name)
+    extract_game_zip(file_name)
 
     # Remove client-side mods
     mods_dir = "./mods"
