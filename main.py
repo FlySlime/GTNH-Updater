@@ -48,12 +48,66 @@ def get_game_path(path_file, arg):
 def get_zip_file(path_file, path):
     """Searches for zip file in current directory.
 
-    TODO: User can decide if they want to use "automatic" download, checks text file for updated zip.
+    User can decide if they want to use "automatic" download, checks text file for updated zip.
     Otherwise, use zip file in current directory.
 
     Check for odd inputs -> Stop the program and ask gives appropriate error message.
     If zip file is found in current directory -> Copy it over to game directory
     """
+    auto_download_file = "autodownload.txt"
+    auto_download_answer = "n"
+    if not os.path.exists(auto_download_file):
+        print(
+            "Would you like to 'automatically' detect and download the latest version of the game? (y/n)"
+        )
+        print(
+            "NOTE: Expect the version to be bumped by me within a couple of hours after a new update is released."
+        )
+        auto_download_answer = input("> ")
+        print()
+        with open(auto_download_file, "w") as f:
+            f.write(auto_download_answer)
+
+    with open(auto_download_file, "r") as f:
+        auto_download_answer = f.readline()
+
+    # Uses the url in "latestversion.txt" to download the "latest" version
+    if auto_download_answer == "y":
+        latest_version_file = "latestversion.txt"
+        latest_version_url = ""
+        with open(latest_version_file, "r") as f:
+            latest_version_url = f.readline()
+
+        # Detects if update is needed, and removes previous zips
+        answer = ""
+        zip_name = latest_version_url[
+            latest_version_url.rfind("/") + 1 : latest_version_url.rfind("?")
+        ]
+        files = os.listdir(".")
+        for file in files:
+            if file.endswith(".zip"):
+                if file == zip_name:
+                    print(
+                        "You are already up-to-date, would you like to install anyway? (y/n)"
+                    )
+                    answer = input("> ")
+                    print()
+                    if answer == "n":
+                        print("Exiting the script...")
+                        exit()
+                remove(file)
+
+        # Download latest version
+        if answer == "y":
+            print("Redownloading the game...")
+        else:
+            print("New update detected, downloading...")
+        urllib.request.urlretrieve(
+            latest_version_url,
+            zip_name,
+        )
+        print()
+
     # Tests for some cases where something might go wrong
     zip_file = ""
     count = 0
@@ -340,7 +394,13 @@ def update_script():
     github_file_name = "GTNH-Updater-main"
 
     # Remove old files, except protected files and zip files
-    protected = [".git", "gamepath.txt", "serverpath.txt", "shaders.txt"]
+    protected = [
+        ".git",
+        "autodownload.txt",
+        "gamepath.txt",
+        "serverpath.txt",
+        "shaders.txt",
+    ]
     objects = os.listdir(".")
     for object in objects:
         if object.endswith(".zip"):
@@ -350,7 +410,7 @@ def update_script():
 
     # Download latest version
     urllib.request.urlretrieve(
-        "https://github.com/FlySlime/GTNH-Updater/archive/refs/heads/main.zip",
+        "https://github.com/flyslime/gtnh-updater/archive/refs/heads/main.zip",
         zip_name,
     )
 
