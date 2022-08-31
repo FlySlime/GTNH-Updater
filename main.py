@@ -420,7 +420,7 @@ def main():
         global max_progress
         max_progress = "4"
 
-        # Jump to script directory
+        # Jump back to script directory
         os.chdir(script_directory)
 
         # Server update
