@@ -73,7 +73,25 @@ def get_zip_file(path_file, path):
 
     # Uses the url in "latestversion.txt" to download the "latest" version
     if auto_download_answer == "y":
+        # Pull latest version from GitHub
+        zip_name = "GTNH-Updater-latest.zip"
+        github_file_name = "GTNH-Updater-main"
+        urllib.request.urlretrieve(
+            "https://github.com/flyslime/gtnh-updater/archive/refs/heads/main.zip",
+            zip_name,
+        )
+
+        # Extract latest version
+        with zipfile.ZipFile(zip_name, "r") as zip_ref:
+            zip_ref.extractall(".")
+
+        # Replace latest version
         latest_version_file = "latestversion.txt"
+        remove(latest_version_file)
+        shutil.move(github_file_name + "/" + latest_version_file, latest_version_file)
+        remove(github_file_name)
+
+        # Acquire the URL
         latest_version_url = ""
         with open(latest_version_file, "r") as f:
             latest_version_url = f.readline()
