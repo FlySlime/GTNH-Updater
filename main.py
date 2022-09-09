@@ -185,6 +185,8 @@ def add_dir_to_game(folder, path):
         files = os.listdir(folder)
         for modfile in files:
             file_name = os.path.join(folder, modfile)
+            if os.path.exists(file_name):
+                continue
             shutil.move(file_name, path)
         # Delete the folder from the game directory
         remove(folder)
