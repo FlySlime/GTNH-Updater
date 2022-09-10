@@ -415,19 +415,24 @@ def update_script():
     zip_name = "GTNH-Updater-latest.zip"
     github_file_name = "GTNH-Updater-main"
 
-    # Remove old files, except protected files and zip files
-    protected = [
-        ".git",
-        "autodownload.txt",
-        "gamepath.txt",
-        "serverpath.txt",
-        "shaders.txt",
+    # Remove most files, except save-files and zip files
+    # NOTE: The reason why we don't write the "protected" files instead
+    #       is to not accidently delete the entire game directory if
+    #       the user wishes to automatically update the game with PolyMC
+    to_remove = [
+        "additional-mods-client",
+        "additional-mods-server",
+        "shaders",
+        "main.py",
+        "UPDATE_CLIENT.bat",
+        "UPDATE_SCRIPT.bat",
+        "UPDATE_SERVER.bat",
     ]
     objects = os.listdir(".")
     for object in objects:
         if object.endswith(".zip"):
             continue
-        if not object in protected:
+        if object in to_remove:
             remove(object)
 
     # Download latest version
