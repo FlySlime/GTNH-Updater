@@ -51,7 +51,7 @@ If you want to always update the game and script when running the game, you can 
 1. Download the script and then extract it into the game directory.
   - ``PolyMC -> Minecraft Folder``
 2. Make sure to run the script once.
-3. Open PolyMC and navigate to custom commands in PolyMC: 
+3. Open PolyMC and navigate to custom commands in PolyMC.
   - ``PolyMC -> Edit Instance -> Settings -> Custom commands`` 
 4. Write the following commands into the text-boxes as shown by the image.
 
