@@ -5,6 +5,7 @@ import shutil
 import sys
 import zipfile
 import urllib.request
+import time
 
 # Global variables
 progress_bar = 0
@@ -97,7 +98,7 @@ def get_zip_file(path_file, path):
             latest_version_url = f.readline()
 
         # Detects if update is needed, and removes previous zips
-        answer = ""
+        new_update = True
         zip_name = latest_version_url[
             latest_version_url.rfind("/") + 1 : latest_version_url.rfind("?")
         ]
@@ -105,21 +106,22 @@ def get_zip_file(path_file, path):
         for file in files:
             if file.endswith(".zip"):
                 if file == zip_name:
+                    new_update = False
                     print(
-                        "You are already up-to-date, would you like to install anyway? (y/n)"
+                        "You are already up-to-date, if you close the script within 5 seconds it won't reinstall."
                     )
-                    answer = input("> ")
                     print()
-                    if answer == "n":
-                        print("Exiting the script...")
-                        exit()
+                    for x in range(5, 0, -1):
+                        print(str(x) + " seconds remaining...")
+                        time.sleep(1)
+                    print()
                 remove(file)
 
         # Download latest version
-        if answer == "y":
-            print("Redownloading the game...")
-        else:
+        if new_update:
             print("New update detected, downloading...")
+        else:
+            print("Redownloading the game...")
         urllib.request.urlretrieve(
             latest_version_url,
             zip_name,
