@@ -43,7 +43,7 @@ $ python main.py both
 $ python main.py script
 ```
 
-## Automatically downloading with PolyMC
+## Automatically updating with PolyMC
 If you want to always update the game and script when running the game, you can do the following:
 
 1. Download the script and then extract it into the game directory.
