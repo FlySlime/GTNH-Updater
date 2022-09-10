@@ -44,7 +44,7 @@ $ python main.py script
 ```
 
 ## Automatically updating with PolyMC
-**NOTE: Make sure you have reasonable internet, as you will be downloading a 300+ MB file.**
+**NOTE: Make sure you have reasonable internet, e.g. 10+ Mbps, as you will be downloading a 300+ MB file.**
 
 If you want to always update the game and script when running the game, you can do the following:
 
