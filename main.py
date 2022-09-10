@@ -122,6 +122,9 @@ def get_zip_file(path_file, path):
             print("New update detected, downloading...")
         else:
             print("Redownloading the game...")
+        print(
+            "NOTE: This might take a while depending on your internet speed. Have some patience!"
+        )
         urllib.request.urlretrieve(
             latest_version_url,
             zip_name,

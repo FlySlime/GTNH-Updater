@@ -44,11 +44,15 @@ $ python main.py script
 ```
 
 ## Automatically updating with PolyMC
+**NOTE: Make sure you have reasonable internet, as you will be downloading a 300+ MB file.**
+
 If you want to always update the game and script when running the game, you can do the following:
 
 1. Download the script and then extract it into the game directory.
+  - ``PolyMC -> Minecraft Folder``
 2. Make sure to run the script once.
-3. Open PolyMC and navigate to custom commands in PolyMC: ``Edit Instance -> Settings -> Custom commands`` 
+3. Open PolyMC and navigate to custom commands in PolyMC: 
+  - ``PolyMC -> Edit Instance -> Settings -> Custom commands`` 
 4. Write the following commands into the text-boxes as shown by the image.
 
 ![custom-commands](https://i.imgur.com/FbTJ6zq.png)
