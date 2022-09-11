@@ -162,6 +162,9 @@ def get_zip_file(path_file, path):
         # This only occurs if the user is automatically updating with PolyMC.
         # If so, set a flag and skip the copy
         if (current_absolute_path + "/" + zip_file) == game_dir_zip_file:
+            print(
+                "Detected script running within the game-directory, setting PolyMC-auto flag...\n"
+            )
             global polymc_auto
             polymc_auto = True
         if not polymc_auto:
