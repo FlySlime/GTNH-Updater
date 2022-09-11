@@ -156,7 +156,12 @@ def get_zip_file(path_file, path):
 
     # Copy the update to game directory
     try:
-        shutil.copy(zip_file, path + "/" + zip_file)
+        game_dir_zip_file = path + "/" + zip_file
+        current_absolute_path = os.path.abspath(os.getcwd())
+        # This only occurs if the user is automatically updating with PolyMC.
+        # If so, skip this step
+        if not (current_absolute_path + "/" + zip_file) == game_dir_zip_file:
+            shutil.copy(zip_file, game_dir_zip_file)
     except:
         print("ERROR: Invalid path.")
         remove(path_file)
