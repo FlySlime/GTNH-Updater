@@ -237,7 +237,6 @@ def add_shaders_to_game(shaders_dir):
             else:
                 shutil.move(src, dst)
         else:
-            src = shaders_dir + "/" + file
             dst = os.path.join("shaderpacks/", file)
             if polymc_auto:
                 shutil.copy(src, dst)
