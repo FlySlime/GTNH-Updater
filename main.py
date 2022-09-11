@@ -10,6 +10,7 @@ import time
 # Global variables
 progress_bar = 0
 max_progress = "4"
+polymc_auto = False
 
 
 def total_progress():
@@ -159,8 +160,11 @@ def get_zip_file(path_file, path):
         game_dir_zip_file = path + "/" + zip_file
         current_absolute_path = os.path.abspath(os.getcwd())
         # This only occurs if the user is automatically updating with PolyMC.
-        # If so, skip this step
-        if not (current_absolute_path + "/" + zip_file) == game_dir_zip_file:
+        # If so, set a flag and skip the copy
+        if (current_absolute_path + "/" + zip_file) == game_dir_zip_file:
+            global polymc_auto
+            polymc_auto = True
+        if not polymc_auto:
             shutil.copy(zip_file, game_dir_zip_file)
     except:
         print("ERROR: Invalid path.")
@@ -197,9 +201,13 @@ def add_dir_to_game(folder, path):
             file_name = os.path.join(folder, file)
             if os.path.exists(path + "/" + file):
                 continue
-            shutil.move(file_name, path)
-        # Delete the folder from the game directory
-        remove(folder)
+            if polymc_auto:
+                shutil.copy(file_name, path)
+            else:
+                shutil.move(file_name, path)
+        if not polymc_auto:
+            # Delete the folder from the game directory
+            remove(folder)
 
 
 def add_shaders_to_game(shaders_dir):
