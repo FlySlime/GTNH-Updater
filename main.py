@@ -229,9 +229,8 @@ def add_shaders_to_game(shaders_dir):
             shutil.move(shaders_dir + "/" + file, os.path.join(file))
         else:
             shutil.move(shaders_dir + "/" + file, os.path.join("shaderpacks/", file))
-
-    # Cleanup
-    remove(shaders_dir)
+    if not polymc_auto:
+        remove(shaders_dir)
 
 
 def remove(object):
