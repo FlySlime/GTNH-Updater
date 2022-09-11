@@ -222,13 +222,27 @@ def add_shaders_to_game(shaders_dir):
 
     shader_files = os.listdir(shaders_dir)
     for file in shader_files:
-        if file.casefold().startswith("OptiFine".casefold()):
-            shutil.move(shaders_dir + "/" + file, os.path.join("mods/", file))
-        elif file.casefold().startswith("options".casefold()):
-            remove(file)
-            shutil.move(shaders_dir + "/" + file, os.path.join(file))
+        # TODO: Check if there is a better way to do this
+        if polymc_auto:
+            if file.casefold().startswith("OptiFine".casefold()):
+                shutil.copy(shaders_dir + "/" + file, os.path.join("mods/", file))
+            elif file.casefold().startswith("options".casefold()):
+                remove(file)
+                shutil.copy(shaders_dir + "/" + file, os.path.join(file))
+            else:
+                shutil.copy(
+                    shaders_dir + "/" + file, os.path.join("shaderpacks/", file)
+                )
         else:
-            shutil.move(shaders_dir + "/" + file, os.path.join("shaderpacks/", file))
+            if file.casefold().startswith("OptiFine".casefold()):
+                shutil.move(shaders_dir + "/" + file, os.path.join("mods/", file))
+            elif file.casefold().startswith("options".casefold()):
+                remove(file)
+                shutil.move(shaders_dir + "/" + file, os.path.join(file))
+            else:
+                shutil.move(
+                    shaders_dir + "/" + file, os.path.join("shaderpacks/", file)
+                )
     if not polymc_auto:
         remove(shaders_dir)
 
