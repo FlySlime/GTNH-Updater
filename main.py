@@ -301,13 +301,13 @@ def check_shaders():
 
 
 def update_client(path, file_name, shader_answer):
+    # NOTE: Don't include "config", it is handled further down
     to_update = [
         "mods",
         "resourcepacks",
         "resources",
         "scripts",
         "README.md",
-        "server.properties",
     ]
 
     # Move additional mods, if any, to the game folder
@@ -345,8 +345,11 @@ def update_client(path, file_name, shader_answer):
 
 
 def update_server(path, file_name):
+    # NOTE: Don't include "config", it is handled further down
     dirs_to_update = [
         "mods",
+        "resourcepacks",
+        "resources",
         "scripts",
     ]
 
@@ -402,10 +405,6 @@ def update_server(path, file_name):
         for client_mod in client_side_mods:
             if mod.casefold().startswith(client_mod.casefold()):
                 remove(os.path.join(mods_dir, mod))
-
-    remove("README.md")
-    remove("resourcepacks")
-    remove("resources")
 
     # Add the server version of "JourneyMap", and other additional mods
     # NOTE: Check the version of this mod every "server-pack" update
