@@ -55,16 +55,16 @@ If you want to always update the game and script when running the game, you can 
   - ``PolyMC -> Edit Instance -> Settings -> Custom commands`` 
 4. Write the following commands into the text-boxes as shown by the image.
 
-![custom-commands](https://i.imgur.com/FbTJ6zq.png)
-
-Pre-launch command:
+**Pre-launch command:**
 ```sh
 python main.py client
 ```
 
-Post-exit command:
+**Post-exit command:**
 ```sh
 python main.py script
 ```
+
+![custom-commands](https://i.imgur.com/FbTJ6zq.png)
 
 There you go! Now you'll be downloading the latest version of GTNH when you start the game, and then updating the script so you never have to check back here again.
