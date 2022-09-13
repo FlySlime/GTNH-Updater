@@ -170,7 +170,9 @@ def get_zip_file(path_file, path):
         if not polymc_auto:
             shutil.copy(zip_file, game_dir_zip_file)
     except:
-        print("ERROR: Invalid path.")
+        print(
+            "ERROR: Path doesn't exist, or the zip file is already in the given path."
+        )
         remove(path_file)
         exit()
 
