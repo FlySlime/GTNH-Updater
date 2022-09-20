@@ -17,7 +17,7 @@ def total_progress():
     """Keeps count of progress and returns the string in format (X/Y)."""
     global progress_bar
     progress_bar += 1
-    return "(" + str(progress_bar) + "/" + max_progress + ")"
+    return " (" + str(progress_bar) + "/" + max_progress + ")"
 
 
 def get_game_path(path_file, arg):
@@ -176,7 +176,7 @@ def get_zip_file(path_file, path):
         remove(path_file)
         exit()
 
-    print("GregTech zip has been found... " + total_progress())
+    print("GregTech zip has been found..." + total_progress())
 
     return zip_file
 
