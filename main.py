@@ -295,7 +295,7 @@ def extract_game_zip(file, pwd=None):
 
 
 def check_shaders():
-    # Check if the user wants shaders or not. Remembers the answer.
+    """Check if the user wants shaders or not. Remembers the answer."""
     shader_file = "shaders.txt"
     if not os.path.isfile(shader_file):
         shader_answer = input(
