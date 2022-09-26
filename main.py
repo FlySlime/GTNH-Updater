@@ -65,6 +65,7 @@ def get_zip_file(path_file, path):
         print(
             "NOTE: Expect the version to be bumped by me within a couple of hours after a new update is released."
         )
+        print("NOTE: That is, if the new update doesn't have any immediate issues.")
         auto_download_answer = input("> ")
         print()
         with open(auto_download_file, "w") as f:
