@@ -10,7 +10,7 @@ import time
 # Global variables
 progress_bar = 0
 max_progress = "4"
-polymc_auto = False
+launcher_auto_update = False
 
 
 def total_progress():
@@ -160,15 +160,15 @@ def get_zip_file(path_file, path):
     try:
         game_dir_zip_file = path + "/" + zip_file
         current_absolute_path = os.path.abspath(os.getcwd())
-        # This only occurs if the user is automatically updating with PolyMC.
+        # Only occurs if the user is automatically updating with a launcher.
         # If so, set a flag and skip the copy
         if (current_absolute_path + "/" + zip_file) == game_dir_zip_file:
             print(
-                "Detected script running within the game-directory, setting PolyMC-auto flag...\n"
+                "Detected script running within the game-directory, setting launcher flag...\n"
             )
-            global polymc_auto
-            polymc_auto = True
-        if not polymc_auto:
+            global launcher_auto_update
+            launcher_auto_update = True
+        if not launcher_auto_update:
             shutil.copy(zip_file, game_dir_zip_file)
     except:
         print(
@@ -207,11 +207,11 @@ def add_dir_to_game(folder, path):
             file_name = os.path.join(folder, file)
             if os.path.exists(path + "/" + file):
                 continue
-            if polymc_auto:
+            if launcher_auto_update:
                 shutil.copy(file_name, path)
             else:
                 shutil.move(file_name, path)
-        if not polymc_auto:
+        if not launcher_auto_update:
             # Delete the folder from the game directory
             remove(folder)
 
@@ -231,24 +231,24 @@ def add_shaders_to_game(shaders_dir):
         src = shaders_dir + "/" + file
         if file.casefold().startswith("OptiFine".casefold()):
             dst = os.path.join("mods/", file)
-            if polymc_auto:
+            if launcher_auto_update:
                 shutil.copy(src, dst)
             else:
                 shutil.move(src, dst)
         elif file.startswith("options"):
             dst = os.path.join(file)
             remove(file)
-            if polymc_auto:
+            if launcher_auto_update:
                 shutil.copy(src, dst)
             else:
                 shutil.move(src, dst)
         else:
             dst = os.path.join("shaderpacks/", file)
-            if polymc_auto:
+            if launcher_auto_update:
                 shutil.copy(src, dst)
             else:
                 shutil.move(src, dst)
-    if not polymc_auto:
+    if not launcher_auto_update:
         remove(shaders_dir)
 
 
@@ -451,7 +451,7 @@ def update_script():
     # Remove most files, except save-files and zip files
     # NOTE: The reason why we don't write the "protected" files instead
     #       is to not accidently delete the entire game directory if
-    #       the user wishes to automatically update the game with PolyMC
+    #       the user wishes to automatically update the game with a launcher.
     to_remove = [
         "additional-mods-client",
         "additional-mods-server",
