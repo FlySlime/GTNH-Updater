@@ -1,16 +1,27 @@
 # GTNH-Updater
 
+### Table of Contents
+- [Introduction](#introduction)
+- [Prerequisites](#prerequisites)
+  * [Windows](#windows)
+- [Install](#install)
+- [Usage](#usage)
+- [Automatic Download with Prism Launcher](#prismlauncher)
+
+# Introduction
+
 Do you like staying up-to-date with one of the most brutal Minecraft modpacks, but are sick of constantly manually updating? Well do not worry, you are not alone, here is the solution nobody asked for!
 
-## Requirements
+# Prerequisites
 Python is the only requirement, make sure you have it installed and you'll be good.
 
-### Windows
+## Windows
 The Python version from the [Windows Store](https://apps.microsoft.com/store/detail/python-310/9PJPW5LDXLZ5) was the only one that worked for my friends, might differ for you. Not sure why this is the case.
 
-## Usage
+# Install
 Simply download the repository, extract it, and then run the appropriate batch file.
 
+# Usage
 - ``UPDATE_CLIENT.bat``
   - Updates the game.
   - (OPTIONAL) "Automatic" downloads by using the URL provided in ``latestversion.txt``.
@@ -23,8 +34,8 @@ Simply download the repository, extract it, and then run the appropriate batch f
   - Pulls latest version of the script.
   - Does not update the game zip file.
 
-### CLI
-If you are feeling dangerous and want to use CLI, then use one of the following arguments:
+## CLI
+If you are feeling cool and want to use CLI, then use one of the following arguments:
 
 - Update client:
 ```sh
@@ -43,7 +54,7 @@ $ python main.py both
 $ python main.py script
 ```
 
-## Automatically updating with Prism Launcher
+# PrismLauncher
 **NOTE: Make sure you have reasonable internet, e.g. 10+ Mbps, as you will be downloading a 300+ MB file.**
 
 If you want to always update the game and script when running the game, you can do the following:
