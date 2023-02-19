@@ -356,7 +356,13 @@ def update_client(path, file_name, shader_answer):
     os.chdir(path)
 
     # Remove certain config folders
-    protected = ["NEI", "betterquesting.cfg", "InvTweaks.cfg", "InGameInfoXML.cfg"]
+    protected = [
+        "GregTech/GregTech.cfg",
+        "NEI",
+        "betterquesting.cfg",
+        "InvTweaks.cfg",
+        "InGameInfoXML.cfg",
+    ]
     remove_configs(protected)
 
     # Remove the old directories and files
@@ -419,7 +425,12 @@ def update_server(path, file_name):
     os.chdir(path)
 
     # Remove certain config folders
-    protected = ["aroma1997", "JourneyMapServer", "Morpheus.cfg"]
+    protected = [
+        "GregTech/GregTech.cfg",
+        "aroma1997",
+        "JourneyMapServer",
+        "Morpheus.cfg",
+    ]
     remove_configs(protected)
 
     # Remove the old directories except config
