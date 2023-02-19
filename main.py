@@ -562,11 +562,7 @@ def main():
         print("ERROR: Invalid argument.")
         exit()
 
-    print(
-        "UPDATE COMPLETE: greggy-boi has successfully been inserted into your "
-        + arg
-        + "."
-    )
+    print("UPDATE COMPLETE: GT:NH", arg, "has successfully been updated.")
 
 
 if __name__ == "__main__":
