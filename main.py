@@ -20,7 +20,7 @@ def total_progress():
     """Keeps count of progress and returns the string in format (X/Y)."""
     global progress_bar
     progress_bar += 1
-    return " (" + str(progress_bar) + "/" + max_progress + ")"
+    return "(" + str(progress_bar) + "/" + max_progress + ")"
 
 
 def get_game_path(path_file, arg):
@@ -190,7 +190,7 @@ def get_zip_file(path_file, path):
         remove(path_file)
         exit()
 
-    print("GregTech zip has been found..." + total_progress())
+    print("GregTech zip has been found...", total_progress())
 
     return zip_file
 
@@ -298,7 +298,7 @@ def remove_configs(protected):
 
 def extract_game_zip(file, pwd=None):
     """Extract the update file without overwriting existing files."""
-    print("Exctracting files..." + total_progress())
+    print("Exctracting files...", total_progress())
 
     # Heavily inspired by the following:
     # https://stackoverflow.com/questions/61351290/unzip-an-archive-without-overwriting-existing-files
@@ -312,7 +312,9 @@ def extract_game_zip(file, pwd=None):
             if not os.path.exists(dst_path):
                 zf.extract(arch_info, ".", pwd)
 
-    print("Cleaning up..." + total_progress() + "\n")
+    print("Cleaning up...", total_progress())
+    print()
+
     remove(file)
 
 
@@ -410,14 +412,14 @@ def update_client(path, file_name, shader_answer):
     ]
 
     # Move additional mods, if any, to the game folder
-    print("Searching for additional mods..." + total_progress())
+    print("Searching for additional mods...", total_progress())
     additional_mods_dir = updater_files_dir + "additional-mods-client"
     copy_dir_to_game(additional_mods_dir, path)
 
     # Move shaders folder, if user choose so
     shaders_dir = updater_files_dir + "shaders"
     if shader_answer == "y":
-        print("Installing shaders..." + total_progress())
+        print("Installing shaders...", total_progress())
         copy_dir_to_game(shaders_dir, path)
 
     # Move into the client directory
@@ -446,7 +448,7 @@ def update_client(path, file_name, shader_answer):
     dir_list = os.listdir(os.getcwd())
     for folder in dir_list:
         if folder.startswith("GT New Horizons"):
-            print("Installing Java 9+ version of GT New Horizons..." + total_progress())
+            print("Installing Java 9+ version of GT New Horizons...", total_progress())
             # First begin by moving "patches" folder where the instance lays
             patches_src_path = os.path.join(folder, "patches")
             parent_dir_path = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
@@ -510,7 +512,7 @@ def update_server(path, file_name):
     ]
 
     # Move additional mods, if any, to the server folder
-    print("Searching for additional mods..." + total_progress())
+    print("Searching for additional mods...", total_progress())
     additional_mods_dir = updater_files_dir + "additional-mods-server"
     copy_dir_to_game(additional_mods_dir, path)
 
