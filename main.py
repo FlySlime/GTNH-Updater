@@ -351,7 +351,7 @@ def update_client(path, file_name, shader_answer):
     copy_dir_to_game(additional_mods_dir, path)
 
     # Move shaders folder, if user choose so
-    shaders_dir = "./shaders"
+    shaders_dir = files + "shaders"
     if shader_answer == "y":
         print("Installing shaders..." + total_progress())
         copy_dir_to_game(shaders_dir, path)
