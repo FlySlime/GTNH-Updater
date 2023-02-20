@@ -8,8 +8,8 @@ import urllib.request
 import time
 
 # Global variables
-progress_bar = 0
 max_progress = "4"
+progress_bar = 0
 updater_auto_update = False
 updater_files_dir = "./files/"
 updater_saves_dir = updater_files_dir + "saves/"
@@ -36,7 +36,6 @@ def get_game_path(path_file, arg):
             print(
                 "Where is the GT New Horizons server located? (Where 'config', 'mods', etc, are stored.)"
             )
-
         path = input("> ")
         print()
         with open(path_file, "w") as f:
@@ -128,6 +127,7 @@ def get_zip_file(path_file, path):
         else:
             print("Redownloading the game...")
         print()
+
         print(
             "NOTE: This might take a while depending on your internet speed. Have some patience!"
         )
@@ -151,9 +151,11 @@ def get_zip_file(path_file, path):
             "ERROR: Couldn't find a zip file to update with in the current directory."
         )
         exit()
+
     elif count >= 2:
         print("ERROR: Too many zip files found.")
         exit()
+
     elif os.path.getsize(zip_file) < 300000000:
         print(
             "ERROR: Zip file seems to be too small, double-check it's the GregTech update provided in the Discord server. (300+ MB check)"
@@ -172,6 +174,7 @@ def get_zip_file(path_file, path):
             )
             global updater_auto_update
             updater_auto_update = True
+
         if not updater_auto_update:
             shutil.copy(zip_file, game_dir_zip_file)
     except:
@@ -211,10 +214,12 @@ def add_dir_to_game(folder, path):
             file_name = os.path.join(folder, file)
             if os.path.exists(path + "/" + file):
                 continue
+
             if updater_auto_update:
                 shutil.copy(file_name, path)
             else:
                 shutil.move(file_name, path)
+
         if not updater_auto_update:
             # Delete the folder from the game directory
             remove(folder)
@@ -233,12 +238,14 @@ def add_shaders_to_game(shaders_dir):
     shader_files = os.listdir(shaders_dir)
     for file in shader_files:
         src = shaders_dir + "/" + file
+
         if file.casefold().startswith("OptiFine".casefold()):
             dst = os.path.join("mods/", file)
             if updater_auto_update:
                 shutil.copy(src, dst)
             else:
                 shutil.move(src, dst)
+
         elif file.startswith("options"):
             dst = os.path.join(file)
             remove(file)
@@ -246,12 +253,14 @@ def add_shaders_to_game(shaders_dir):
                 shutil.copy(src, dst)
             else:
                 shutil.move(src, dst)
+
         else:
             dst = os.path.join("shaderpacks/", file)
             if updater_auto_update:
                 shutil.copy(src, dst)
             else:
                 shutil.move(src, dst)
+
     if not updater_auto_update:
         remove(shaders_dir)
 
@@ -383,7 +392,7 @@ def check_java_version():
     return java_9_answer
 
 
-def update_client(path, file_name, shader_answer):
+def update_client(path, file_name, shader_answer, java_version_answer):
     # NOTE: Don't include "config", it is handled further down
     to_update = [
         "mods",
@@ -524,6 +533,7 @@ def update_script():
         "UPDATE_SCRIPT.bat",
         "UPDATE_SERVER.bat",
     ]
+
     objects = os.listdir(".")
     for object in objects:
         if object.endswith(".zip"):
@@ -587,11 +597,13 @@ def main():
     if arg == "client":
         path = get_game_path(client_path, "client")
         zip_file = get_zip_file(client_path, path)
-        update_client(path, zip_file, shader_answer)
+        update_client(path, zip_file, shader_answer, java_version_answer)
+
     elif arg == "server":
         path = get_game_path(server_path, "server")
         zip_file = get_zip_file(server_path, path)
         update_server(path, zip_file)
+
     elif arg == "both":
         # Save script directory so we can return to it for server update
         script_directory = os.getcwd()
@@ -599,7 +611,7 @@ def main():
         # Client update
         path = get_game_path(client_path, "client")
         zip_file = get_zip_file(client_path, path)
-        update_client(path, zip_file, shader_answer)
+        update_client(path, zip_file, shader_answer, java_version_answer)
         print()
 
         # Refresh progress
@@ -615,6 +627,7 @@ def main():
         path = get_game_path(server_path, "server")
         zip_file = get_zip_file(server_path, path)
         update_server(path, zip_file)
+
     else:
         print("ERROR: Invalid argument.")
         exit()
