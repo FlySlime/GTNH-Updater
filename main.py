@@ -632,7 +632,7 @@ def main():
         print("ERROR: Invalid argument.")
         exit()
 
-    print("UPDATE COMPLETE: GT:NH", arg, "has successfully been updated.")
+    print("UPDATE COMPLETE: GT New Horizons", arg, "has successfully been updated.")
 
 
 if __name__ == "__main__":
