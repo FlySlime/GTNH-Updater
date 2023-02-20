@@ -10,8 +10,9 @@ import time
 # Global variables
 progress_bar = 0
 max_progress = "4"
-launcher_auto_update = False
-files = "./files/"
+updater_auto_update = False
+updater_files_dir = "./files/"
+updater_saves_dir = updater_files_dir + "saves/"
 
 
 def total_progress():
@@ -57,19 +58,19 @@ def get_zip_file(path_file, path):
     Check for odd inputs -> Stop the program and ask gives appropriate error message.
     If zip file is found in current directory -> Copy it over to game directory
     """
-    global files
-    auto_download_file = files + "autodownload.txt"
+    global updater_saves_dir
+    auto_download_file = updater_saves_dir + "autodownload.txt"
     auto_download_answer = "n"
     if not os.path.exists(auto_download_file):
         print(
             "Would you like to 'automatically' detect and download the latest version of the game? (y/n)"
         )
+        auto_download_answer = input("> ")
         print()
         print(
-            "NOTE: Expect the version to be bumped by me within a couple of hours after a new update is released."
+            "NOTE: Expect the version to be bumped by me within a couple of hours after a new update is released.",
+            "That is, if the new update doesn't have any immediate issues.",
         )
-        print("NOTE: That is, if the new update doesn't have any immediate issues.")
-        auto_download_answer = input("> ")
         print()
         with open(auto_download_file, "w") as f:
             f.write(auto_download_answer)
@@ -92,7 +93,8 @@ def get_zip_file(path_file, path):
             zip_ref.extractall(".")
 
         # Replace latest version
-        latest_version_file = files + "latestversion.txt"
+        global updater_files_dir
+        latest_version_file = updater_files_dir + "latestversion.txt"
         remove(latest_version_file)
         shutil.move(github_file_name + "/" + latest_version_file, latest_version_file)
         remove(github_file_name)
@@ -107,8 +109,8 @@ def get_zip_file(path_file, path):
         zip_name = latest_version_url[
             latest_version_url.rfind("/") + 1 : latest_version_url.rfind("?")
         ]
-        files = os.listdir(".")
-        for file in files:
+        files_dir = os.listdir(".")
+        for file in files_dir:
             if file.endswith(".zip"):
                 if file == zip_name:
                     new_update = False
@@ -170,9 +172,9 @@ def get_zip_file(path_file, path):
             print(
                 "Detected script running within the game-directory, setting launcher flag...\n"
             )
-            global launcher_auto_update
-            launcher_auto_update = True
-        if not launcher_auto_update:
+            global updater_auto_update
+            updater_auto_update = True
+        if not updater_auto_update:
             shutil.copy(zip_file, game_dir_zip_file)
     except:
         print(
@@ -211,11 +213,11 @@ def add_dir_to_game(folder, path):
             file_name = os.path.join(folder, file)
             if os.path.exists(path + "/" + file):
                 continue
-            if launcher_auto_update:
+            if updater_auto_update:
                 shutil.copy(file_name, path)
             else:
                 shutil.move(file_name, path)
-        if not launcher_auto_update:
+        if not updater_auto_update:
             # Delete the folder from the game directory
             remove(folder)
 
@@ -235,24 +237,24 @@ def add_shaders_to_game(shaders_dir):
         src = shaders_dir + "/" + file
         if file.casefold().startswith("OptiFine".casefold()):
             dst = os.path.join("mods/", file)
-            if launcher_auto_update:
+            if updater_auto_update:
                 shutil.copy(src, dst)
             else:
                 shutil.move(src, dst)
         elif file.startswith("options"):
             dst = os.path.join(file)
             remove(file)
-            if launcher_auto_update:
+            if updater_auto_update:
                 shutil.copy(src, dst)
             else:
                 shutil.move(src, dst)
         else:
             dst = os.path.join("shaderpacks/", file)
-            if launcher_auto_update:
+            if updater_auto_update:
                 shutil.copy(src, dst)
             else:
                 shutil.move(src, dst)
-    if not launcher_auto_update:
+    if not updater_auto_update:
         remove(shaders_dir)
 
 
@@ -300,7 +302,7 @@ def extract_game_zip(file, pwd=None):
 
 def check_shaders():
     """Check if the user wants shaders or not. Remembers the answer."""
-    shader_file = files + "shaders.txt"
+    shader_file = updater_saves_dir + "shaders.txt"
     if not os.path.isfile(shader_file):
         shader_answer = input(
             "Would you like to install shaders? Expect a drop in 10-40 fps. (y/n)\n> "
@@ -351,7 +353,7 @@ def update_client(path, file_name, shader_answer):
     copy_dir_to_game(additional_mods_dir, path)
 
     # Move shaders folder, if user choose so
-    shaders_dir = files + "shaders"
+    shaders_dir = updater_files_dir + "shaders"
     if shader_answer == "y":
         print("Installing shaders..." + total_progress())
         copy_dir_to_game(shaders_dir, path)
@@ -527,8 +529,8 @@ def main():
     if arg != "server":
         shader_answer = check_shaders()
 
-    client_path = files + "gamepath.txt"
-    server_path = files + "serverpath.txt"
+    client_path = updater_saves_dir + "gamepath.txt"
+    server_path = updater_saves_dir + "serverpath.txt"
 
     # Updater
     if arg == "client":
