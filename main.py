@@ -92,7 +92,7 @@ def get_zip_file(path_file, path):
             zip_ref.extractall(".")
 
         # Replace latest version
-        latest_version_file = updater_files_dir + "latestversion.txt"
+        latest_version_file = updater_files_dir + "GTNH-java8-version.txt"
         remove(latest_version_file)
         shutil.move(github_file_name + "/" + latest_version_file, latest_version_file)
         remove(github_file_name)
