@@ -58,7 +58,6 @@ def get_zip_file(path_file, path):
     Check for odd inputs -> Stop the program and ask gives appropriate error message.
     If zip file is found in current directory -> Copy it over to game directory
     """
-    global updater_saves_dir
     auto_download_file = updater_saves_dir + "autodownload.txt"
     auto_download_answer = "n"
     if not os.path.exists(auto_download_file):
@@ -93,7 +92,6 @@ def get_zip_file(path_file, path):
             zip_ref.extractall(".")
 
         # Replace latest version
-        global updater_files_dir
         latest_version_file = updater_files_dir + "latestversion.txt"
         remove(latest_version_file)
         shutil.move(github_file_name + "/" + latest_version_file, latest_version_file)
