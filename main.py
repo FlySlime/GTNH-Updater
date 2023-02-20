@@ -299,48 +299,6 @@ def extract_game_zip(file, pwd=None):
     remove(file)
 
 
-def check_java_version():
-    """TODO: ADD COMMENTS"""
-    java_version_file = updater_saves_dir + "java-version.txt"
-    if not os.path.isfile(java_version_file):
-        print(
-            "Would you like to use the new and faster, but very experimental, version of Java for GT:NH? (y/n)"
-        )
-        print(
-            "WARNING: Currently the updater does NOT support Java 9+ for updating servers.",
-            "Only use if you intend on manually updating your servers for now!",
-        )
-        java_9_answer = input("> ")
-        print()
-        if java_9_answer == "y":
-            print(
-                "NOTE: Java 9+ will be used and this decision will be saved.",
-                end="",
-            )
-        else:
-            print("NOTE: Java 8 will be used and this decision will be saved.", end="")
-        print("If you change your mind then remove", java_version_file)
-        print()
-
-        with open(java_version_file, "w") as f:
-            f.write(java_9_answer)
-    else:
-        with open(java_version_file, "r") as f:
-            java_9_answer = f.readline()
-        if java_9_answer == "y":
-            print("NOTE: Found " + java_version_file + ": Java 9+ will be used.")
-        else:
-            print("NOTE: Found " + java_version_file + ": Java 8 will be used.")
-        print()
-
-    # Adjust the progress bar
-    if java_9_answer == "y":
-        global max_progress
-        max_progress = str(int(max_progress) + 1)
-
-    return java_9_answer
-
-
 def check_shaders():
     """Check if the user wants shaders or not. Remembers the answer."""
     shader_file = updater_saves_dir + "shaders.txt"
@@ -348,6 +306,7 @@ def check_shaders():
         print("Would you like to install shaders? Expect a drop in 10-40 fps. (y/n)")
         shader_answer = input("> ")
         print()
+
         if shader_answer == "y":
             print(
                 "NOTE: Shaders will be installed and this decision will be saved.",
@@ -378,6 +337,50 @@ def check_shaders():
         max_progress = str(int(max_progress) + 1)
 
     return shader_answer
+
+
+def check_java_version():
+    """TODO: ADD COMMENTS"""
+    java_version_file = updater_saves_dir + "java-version.txt"
+    if not os.path.isfile(java_version_file):
+        print(
+            "Would you like to use the new and faster, but very experimental, version of Java for GT:NH? (y/n)"
+        )
+        print()
+        print(
+            "WARNING: Currently the updater does NOT support Java 9+ for updating servers.",
+            "Only use if you intend on manually updating your servers for now!",
+        )
+        java_9_answer = input("> ")
+        print()
+
+        if java_9_answer == "y":
+            print(
+                "NOTE: Java 9+ will be used and this decision will be saved.",
+                end="",
+            )
+        else:
+            print("NOTE: Java 8 will be used and this decision will be saved.", end="")
+        print("If you change your mind then remove", java_version_file)
+        print()
+
+        with open(java_version_file, "w") as f:
+            f.write(java_9_answer)
+    else:
+        with open(java_version_file, "r") as f:
+            java_9_answer = f.readline()
+        if java_9_answer == "y":
+            print("NOTE: Found " + java_version_file + ": Java 9+ will be used.")
+        else:
+            print("NOTE: Found " + java_version_file + ": Java 8 will be used.")
+        print()
+
+    # Adjust the progress bar
+    if java_9_answer == "y":
+        global max_progress
+        max_progress = str(int(max_progress) + 1)
+
+    return java_9_answer
 
 
 def update_client(path, file_name, shader_answer):
