@@ -196,10 +196,12 @@ def copy_dir_to_game(folder, path):
     """
     if os.path.exists(path + "/" + folder):
         return -1
+
     if os.path.exists(folder):
         shutil.copytree(folder, path + "/" + folder)
     else:
         print("   -> No folder '" + folder[2:] + "' found. Skiping this step!")
+
     return 1
 
 
