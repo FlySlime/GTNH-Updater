@@ -8,6 +8,7 @@ import urllib.request
 import time
 
 # Global variables
+java_9_answer = ""
 max_progress = "4"
 progress_bar = 0
 updater_auto_update = False
@@ -90,8 +91,13 @@ def get_zip_file(path_file, path):
         with zipfile.ZipFile(zip_name, "r") as zip_ref:
             zip_ref.extractall(".")
 
-        # Replace latest version
-        latest_version_file = updater_files_dir + "GTNH-java8-version.txt"
+        # Check what version of Java the user would like to use
+        if java_9_answer == "y":
+            latest_version_file = updater_files_dir + "GTNH-java9+-version.txt"
+        else:
+            latest_version_file = updater_files_dir + "GTNH-java8-version.txt"
+
+        # Ensure we are using the latest version from GitHub
         remove(latest_version_file)
         shutil.move(github_file_name + "/" + latest_version_file, latest_version_file)
         remove(github_file_name)
@@ -362,6 +368,7 @@ def check_java_version():
             "WARNING: Currently the updater does NOT support Java 9+ for updating servers.",
             "Only use if you intend on manually updating your servers for now!",
         )
+        global java_9_answer
         java_9_answer = input("> ")
         print()
 
@@ -391,10 +398,8 @@ def check_java_version():
         global max_progress
         max_progress = str(int(max_progress) + 1)
 
-    return java_9_answer
 
-
-def update_client(path, file_name, shader_answer, java_version_answer):
+def update_client(path, file_name, shader_answer):
     # NOTE: Don't include "config", it is handled further down
     to_update = [
         "mods",
@@ -434,6 +439,31 @@ def update_client(path, file_name, shader_answer, java_version_answer):
 
     # Extract and update the game
     extract_game_zip(file_name)
+
+    # Check if the user has downloaded the Java 9+ version
+    # Move the "patches" folder back one step
+    # Then merge the ".minecraft" as we usually do
+    dir_list = os.listdir(os.getcwd())
+    for folder in dir_list:
+        if folder.startswith("GT New Horizons"):
+            print("Installing Java 9+ version of GT New Horizons..." + total_progress())
+            # First begin by moving "patches" folder where the instance lays
+            patches_src_path = os.path.join(folder, "patches")
+            parent_dir_path = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
+            patches_dest_path = os.path.join(parent_dir_path, "patches")
+
+            shutil.move(patches_src_path, patches_dest_path)
+
+            # Afterwards move the contents of ".minecraft", i.e. modpack update, to game directory
+            minecraft_src_path = os.path.join(folder, ".minecraft")
+            for file_name in os.listdir(minecraft_src_path):
+                file_path = os.path.join(minecraft_src_path, file_name)
+                if os.path.isfile(file_path):
+                    shutil.move(file_path, file_name)
+
+        # Lastly remove the folder
+        remove(folder)
+        break
 
     # Add the additional mods to the mod folder
     mods_dir = "./mods"
@@ -583,9 +613,8 @@ def main():
         exit()
 
     # Check if the user would like to use Java 9+
-    java_version_answer = ""
     if arg != "server":
-        java_version_answer = check_java_version()
+        check_java_version()
 
     # Check if the user wants shaders or not
     shader_answer = ""
@@ -599,7 +628,7 @@ def main():
     if arg == "client":
         path = get_game_path(client_path, "client")
         zip_file = get_zip_file(client_path, path)
-        update_client(path, zip_file, shader_answer, java_version_answer)
+        update_client(path, zip_file, shader_answer)
 
     elif arg == "server":
         path = get_game_path(server_path, "server")
@@ -613,7 +642,7 @@ def main():
         # Client update
         path = get_game_path(client_path, "client")
         zip_file = get_zip_file(client_path, path)
-        update_client(path, zip_file, shader_answer, java_version_answer)
+        update_client(path, zip_file, shader_answer)
         print()
 
         # Refresh progress
