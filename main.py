@@ -11,6 +11,7 @@ import time
 progress_bar = 0
 max_progress = "4"
 launcher_auto_update = False
+files = "./files/"
 
 
 def total_progress():
@@ -56,12 +57,14 @@ def get_zip_file(path_file, path):
     Check for odd inputs -> Stop the program and ask gives appropriate error message.
     If zip file is found in current directory -> Copy it over to game directory
     """
-    auto_download_file = "autodownload.txt"
+    global files
+    auto_download_file = files + "autodownload.txt"
     auto_download_answer = "n"
     if not os.path.exists(auto_download_file):
         print(
             "Would you like to 'automatically' detect and download the latest version of the game? (y/n)"
         )
+        print()
         print(
             "NOTE: Expect the version to be bumped by me within a couple of hours after a new update is released."
         )
@@ -89,7 +92,7 @@ def get_zip_file(path_file, path):
             zip_ref.extractall(".")
 
         # Replace latest version
-        latest_version_file = "latestversion.txt"
+        latest_version_file = files + "latestversion.txt"
         remove(latest_version_file)
         shutil.move(github_file_name + "/" + latest_version_file, latest_version_file)
         remove(github_file_name)
@@ -124,6 +127,7 @@ def get_zip_file(path_file, path):
             print("New update detected, downloading...")
         else:
             print("Redownloading the game...")
+        print()
         print(
             "NOTE: This might take a while depending on your internet speed. Have some patience!"
         )
@@ -296,7 +300,7 @@ def extract_game_zip(file, pwd=None):
 
 def check_shaders():
     """Check if the user wants shaders or not. Remembers the answer."""
-    shader_file = "shaders.txt"
+    shader_file = files + "shaders.txt"
     if not os.path.isfile(shader_file):
         shader_answer = input(
             "Would you like to install shaders? Expect a drop in 10-40 fps. (y/n)\n> "
@@ -523,8 +527,8 @@ def main():
     if arg != "server":
         shader_answer = check_shaders()
 
-    client_path = "gamepath.txt"
-    server_path = "serverpath.txt"
+    client_path = files + "gamepath.txt"
+    server_path = files + "serverpath.txt"
 
     # Updater
     if arg == "client":
