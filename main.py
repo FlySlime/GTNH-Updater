@@ -44,7 +44,8 @@ def get_game_path(path_file, arg):
     else:
         with open(path_file, "r") as f:
             path = f.readline()
-        print("NOTE: Using previous path stored in '" + path_file + "': " + path + "\n")
+        print("NOTE: Found", path_file, "-> " + path)
+        print()
 
     return path
 
@@ -122,7 +123,7 @@ def get_zip_file(path_file, path):
                     )
                     print()
                     for x in range(5, 0, -1):
-                        print(str(x) + " seconds remaining...")
+                        print(x, "seconds remaining...")
                         time.sleep(1)
                     print()
                 remove(file)
@@ -201,14 +202,12 @@ def copy_dir_to_game(folder, path):
     Check if folder exists before performing the action
     """
     if os.path.exists(path + "/" + folder):
-        return -1
+        return
 
     if os.path.exists(folder):
         shutil.copytree(folder, path + "/" + folder)
     else:
-        print("   -> No folder '" + folder[2:] + "' found. Skiping this step!")
-
-    return 1
+        print("   -> No folder '" + folder[2:] + "' found. Skipping this step!")
 
 
 def add_dir_to_game(folder, path):
@@ -306,7 +305,7 @@ def remove_configs(protected):
             remove(config_dir + "/" + config)
     except:
         print(
-            "ERROR: Wrong path, double-check that the path has the folders: 'config', 'mods', etc."
+            "ERROR: Invalid path, double-check that the path has the folders: 'config', 'mods', etc."
         )
 
 
@@ -314,17 +313,12 @@ def extract_game_zip(file, pwd=None):
     """Extract the update file without overwriting existing files."""
     print("Exctracting files...", total_progress())
 
-    # Heavily inspired by the following:
-    # https://stackoverflow.com/questions/61351290/unzip-an-archive-without-overwriting-existing-files
+    # Unzip the zip file without overwriting any existing files
     with zipfile.ZipFile(file) as zf:
-        members = zf.namelist()
-        for member in members:
-            arch_info = zf.getinfo(member)
-            arch_name = arch_info.filename.replace("/", os.path.sep)
-            dst_path = os.path.join(".", arch_name)
-            dst_path = os.path.normpath(dst_path)
+        for member in zf.namelist():
+            dst_path = os.path.normpath(member.replace("/", os.path.sep))
             if not os.path.exists(dst_path):
-                zf.extract(arch_info, ".", pwd)
+                zf.extract(member, ".", pwd)
 
     print("Cleaning up...", total_progress())
 
@@ -364,9 +358,9 @@ def check_shaders():
         with open(shader_file, "r") as f:
             shader_answer = f.readline()
         if shader_answer == "y":
-            print("NOTE: Found " + shader_file + ": Shaders will be installed.")
+            print("NOTE: Found", shader_file, "-> Shaders will be installed.")
         else:
-            print("NOTE: Found " + shader_file + ": Shaders will NOT be installed.")
+            print("NOTE: Found", shader_file, "-> Shaders will NOT be installed.")
         print()
 
     # Adjust the progress bar
@@ -409,9 +403,9 @@ def check_java_version():
         with open(java_version_file, "r") as f:
             java_9_answer = f.readline()
         if java_9_answer == "y":
-            print("NOTE: Found " + java_version_file + ": Java 9+ will be used.")
+            print("NOTE: Found", java_version_file, "-> Java 9+ will be used.")
         else:
-            print("NOTE: Found " + java_version_file + ": Java 8 will be used.")
+            print("NOTE: Found", java_version_file, "-> Java 8 will be used.")
         print()
 
     # Adjust the progress bar
@@ -569,7 +563,8 @@ def update_server(path, file_name):
 
 
 def update_script():
-    print("Pulling the latest version of 'GTNH-Updater'...\n")
+    print("Pulling the latest version of 'GTNH-Updater'...")
+    print()
     zip_name = "GTNH-Updater-latest.zip"
     github_file_name = "GTNH-Updater-main"
 
@@ -685,7 +680,8 @@ def main():
         exit()
 
     print()
-    print("UPDATE COMPLETE: GT New Horizons", arg, "has successfully been updated.")
+    print("UPDATE COMPLETE!")
+    print("=> GT New Horizons", arg, "has successfully been updated.")
 
 
 if __name__ == "__main__":
