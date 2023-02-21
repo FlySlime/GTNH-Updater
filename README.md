@@ -80,4 +80,4 @@ python main.py script
 
 There you go! Now you'll be downloading the latest version of GTNH when you start the game, and then updating the script so you never have to check back here again.
 
-If any issues arise, try running the script manually once and see if it works. If that doens't fix it then try running "UPDATE_SCRIPT.bat".
+If any issues arise, try running the script manually, `UPDATE_CLIENT.bat`, once and see if it works. If that doens't fix it then try running `UPDATE_SCRIPT.bat`.
