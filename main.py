@@ -442,8 +442,10 @@ def update_client(path, file_name, shader_answer):
     os.chdir(path)
 
     # Remove certain config folders
+    # FIXME: Currently we can't ignore a file within a folder
+    #       for example "GregTech/GregTech.cfg"
     protected = [
-        "GregTech/GregTech.cfg",
+        "GregTech",
         "NEI",
         "betterquesting.cfg",
         "InvTweaks.cfg",
@@ -536,8 +538,10 @@ def update_server(path, file_name):
     os.chdir(path)
 
     # Remove certain config folders
+    # FIXME: Currently we can't ignore a file within a folder
+    #       for example "GregTech/GregTech.cfg"
     protected = [
-        "GregTech/GregTech.cfg",
+        "GregTech",
         "aroma1997",
         "JourneyMapServer",
         "Morpheus.cfg",
