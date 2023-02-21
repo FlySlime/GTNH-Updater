@@ -4,8 +4,8 @@
 - [Introduction](#introduction)
 - [Prerequisites](#prerequisites)
   * [Windows](#windows)
-- [Install](#install)
-- [Usage](#usage)
+- [Install and Usage](#install-and-usage)
+- [Features](#features)
 - [Automatic Download with Prism Launcher](#prismlauncher)
 
 # Introduction
@@ -18,7 +18,7 @@ Python is the only requirement, make sure you have it installed and you'll be go
 ## Windows
 The Python version from the [Windows Store](https://apps.microsoft.com/store/detail/python-310/9PJPW5LDXLZ5) was the only one that worked for my friends, however it might differ on your computer.
 
-# Install & Usage
+# Install and Usage
 Simply download the repository, extract it, and then run the appropriate batch file.
 
 # Features
