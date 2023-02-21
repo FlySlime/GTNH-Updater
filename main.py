@@ -233,17 +233,20 @@ def add_dir_to_game(folder, path):
 
 
 def merge_folders(src_folder, dest_folder):
+    """Merge two folders together.
+
+    If files exist in both folders, the destination folder's file will be kept."""
+    if not os.path.exists(dest_folder):
+        os.makedirs(dest_folder)
+
     for item in os.listdir(src_folder):
-        src_path = os.path.join(src_folder, item)
-        dest_path = os.path.join(dest_folder, item)
-        if os.path.exists(dest_path):
-            if os.path.isdir(src_path):
-                merge_folders(src_path, dest_path)
-        else:
-            if os.path.isdir(src_path):
-                shutil.copytree(src_path, dest_path)
-            else:
-                shutil.copy2(src_path, dest_path)
+        src_item = os.path.join(src_folder, item)
+        dest_item = os.path.join(dest_folder, item)
+
+        if os.path.isdir(src_item):
+            merge_folders(src_item, dest_item)
+        elif not os.path.exists(dest_item):
+            shutil.copy2(src_item, dest_item)
 
 
 def add_shaders_to_game(shaders_dir):
@@ -372,7 +375,7 @@ def check_shaders():
 
 
 def check_java_version():
-    """TODO: ADD COMMENTS"""
+    """Ask the user for what version of Java they would like to use."""
     java_version_file = updater_saves_dir + "java-version.txt"
     if not os.path.isfile(java_version_file):
         print(
