@@ -313,7 +313,6 @@ def extract_game_zip(file, pwd=None):
                 zf.extract(arch_info, ".", pwd)
 
     print("Cleaning up...", total_progress())
-    print()
 
     # Remove zip file
     remove(file)
@@ -452,7 +451,7 @@ def update_client(path, file_name, shader_answer):
     dir_list = os.listdir(os.getcwd())
     for folder in dir_list:
         if folder.startswith("GT New Horizons"):
-            print("Installing Java 9+ version of GT New Horizons...", total_progress())
+            print("Installing Java 9+ version...", total_progress())
             # First begin by moving the files/folder to where the instance lays
             for object in os.listdir(folder):
                 if object == ".minecraft":
@@ -467,10 +466,7 @@ def update_client(path, file_name, shader_answer):
 
             # Move the contents of ".minecraft", i.e. modpack update, to game directory
             minecraft_src_path = os.path.join(folder, ".minecraft")
-            for file_name in os.listdir(minecraft_src_path):
-                file_path = os.path.join(minecraft_src_path, file_name)
-                if os.path.isfile(file_path):
-                    shutil.move(file_path, file_name)
+            add_dir_to_game(minecraft_src_path, ".")
 
             # Remove the folder and exit loop
             remove(folder)
@@ -674,6 +670,7 @@ def main():
         print("ERROR: Invalid argument.")
         exit()
 
+    print()
     print("UPDATE COMPLETE: GT New Horizons", arg, "has successfully been updated.")
 
 
