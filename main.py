@@ -315,7 +315,13 @@ def extract_game_zip(file, pwd=None):
     print("Cleaning up...", total_progress())
     print()
 
+    # Remove zip file
     remove(file)
+
+    # Remove previous change-log files
+    for file in os.listdir():
+        if file.startswith("changelog from"):
+            remove(file)
 
 
 def check_shaders():
