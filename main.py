@@ -382,8 +382,10 @@ def check_java_version():
             "Would you like to use the new and faster, but very experimental, version of Java for GT:NH? (y/n)"
         )
         print()
+        print("WARNING 1: Java 9+ ONLY works for Prism Launcher currently.")
+        print()
         print(
-            "WARNING: Currently the updater does NOT support Java 9+ for updating servers.",
+            "WARNING 2: The updater does NOT support Java 9+ for updating servers.",
             "Only use if you intend on manually updating your servers for now!",
         )
         global java_9_answer
