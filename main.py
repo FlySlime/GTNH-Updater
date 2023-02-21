@@ -628,6 +628,10 @@ def main():
         update_script()
         exit()
 
+    # Create "./files/saves/" if it doesn't exist, as we save the user's data there
+    if not os.path.exists(updater_files_dir + "saves"):
+        os.makedirs(updater_files_dir + "saves")
+
     # Check if the user would like to use Java 9+
     if arg != "server":
         check_java_version()
