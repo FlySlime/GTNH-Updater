@@ -10,26 +10,27 @@
 
 # Introduction
 
-Do you like staying up-to-date with one of the most brutal Minecraft modpacks, but are sick of constantly manually updating? Well do not worry, you are not alone, here is the solution nobody asked for!
+Do you like staying up-to-date with one of the most brutal Minecraft modpacks, but are sick of constantly manually updating? Well do not worry, you are not alone, here is the solution for lazy people like us!
 
 # Prerequisites
 Python is the only requirement, make sure you have it installed and you'll be good.
 
 ## Windows
-The Python version from the [Windows Store](https://apps.microsoft.com/store/detail/python-310/9PJPW5LDXLZ5) was the only one that worked for my friends, might differ for you. Not sure why this is the case.
+The Python version from the [Windows Store](https://apps.microsoft.com/store/detail/python-310/9PJPW5LDXLZ5) was the only one that worked for my friends, however it might differ on your computer.
 
-# Install
+# Install & Usage
 Simply download the repository, extract it, and then run the appropriate batch file.
 
-# Usage
+# Features
 - ``UPDATE_CLIENT.bat``
   - Updates the game.
-  - (OPTIONAL) "Automatic" downloads by using the URL provided in ``latestversion.txt``.
-  - (OPTIONAL) Installs shaders.
-  - Installs additional mods for client.
+  - (OPTIONAL) "Automatic" downloads.
+  - (OPTIONAL) Easily switch between Java8 8 and Java 9+.
+  - (OPTIONAL & CUSTOMIZABLE) Installs shaders.
+  - (OPTIONAL & CUSTOMIZABLE) Installs additional mods for client.
 - ``UPDATE_SERVER.bat``
   - Updates the server.
-  - Installs additional mods for server.
+  - (OPTIONAL & CUSTOMIZABLE) Installs additional mods for server.
 - ``UPDATE_SCRIPT.bat``
   - Pulls latest version of the script.
   - Does not update the game zip file.
