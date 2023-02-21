@@ -233,6 +233,20 @@ def add_dir_to_game(folder, path):
             remove(folder)
 
 
+def merge_folders(src_folder, dest_folder):
+    for item in os.listdir(src_folder):
+        src_path = os.path.join(src_folder, item)
+        dest_path = os.path.join(dest_folder, item)
+        if os.path.exists(dest_path):
+            if os.path.isdir(src_path):
+                merge_folders(src_path, dest_path)
+        else:
+            if os.path.isdir(src_path):
+                shutil.copytree(src_path, dest_path)
+            else:
+                shutil.copy2(src_path, dest_path)
+
+
 def add_shaders_to_game(shaders_dir):
     """Add shaders & configs.
 
@@ -466,7 +480,7 @@ def update_client(path, file_name, shader_answer):
 
             # Move the contents of ".minecraft", i.e. modpack update, to game directory
             minecraft_src_path = os.path.join(folder, ".minecraft")
-            add_dir_to_game(minecraft_src_path, ".")
+            merge_folders(minecraft_src_path, path)
 
             # Remove the folder and exit loop
             remove(folder)
