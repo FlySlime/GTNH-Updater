@@ -63,7 +63,7 @@ def get_zip_file(path_file, path):
     auto_download_answer = "n"
     if not os.path.exists(auto_download_file):
         print(
-            "Would you like to 'automatically' detect and download the latest version of the game? (y/n)"
+            "Would you like to 'automatically' download the latest version of the game? (y/n)"
         )
         auto_download_answer = input("> ")
         print()
@@ -342,14 +342,14 @@ def check_shaders():
         if shader_answer == "y":
             print(
                 "NOTE: Shaders will be installed and this decision will be saved.",
-                end="",
+                end=" ",
             )
         else:
             print(
                 "NOTE: Shaders will NOT be installed and this decision will be saved.",
-                end="",
+                end=" ",
             )
-        print("If you change your mind then remove", shader_answer)
+        print("If you change your mind then remove", shader_file)
         print()
 
         with open(shader_file, "w") as f:
@@ -390,10 +390,10 @@ def check_java_version():
         if java_9_answer == "y":
             print(
                 "NOTE: Java 9+ will be used and this decision will be saved.",
-                end="",
+                end=" ",
             )
         else:
-            print("NOTE: Java 8 will be used and this decision will be saved.", end="")
+            print("NOTE: Java 8 will be used and this decision will be saved.", end=" ")
         print("If you change your mind then remove", java_version_file)
         print()
 
