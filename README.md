@@ -6,7 +6,7 @@
   * [Windows](#windows)
 - [Install and Usage](#install-and-usage)
 - [Features](#features)
-- [Automatic Download with Prism Launcher](#prismlauncher)
+- [Automatic Download with Prism Launcher](#automatic-download-with-prism-launcher)
 
 # Introduction
 
@@ -55,7 +55,7 @@ $ python main.py both
 $ python main.py script
 ```
 
-# PrismLauncher
+# Automatic Download with Prism Launcher
 **NOTE: Make sure you have reasonable internet, e.g. 10+ Mbps, as you will be downloading a 300+ MB file.**
 
 If you want to always update the game and script when running the game, you can do the following:
