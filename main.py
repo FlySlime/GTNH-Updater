@@ -418,11 +418,11 @@ def update_client(path, file_name, shader_answer):
 
     # Move additional mods, if any, to the game folder
     print("Searching for additional mods...", total_progress())
-    additional_mods_dir = "additional-mods-client"
+    additional_mods_dir = updater_files_dir + "additional-mods-client"
     copy_dir_to_game(additional_mods_dir, path)
 
     # Move shaders folder, if user choose so
-    shaders_dir = "shaders"
+    shaders_dir = updater_files_dir + "shaders"
     if shader_answer == "y":
         print("Installing shaders...", total_progress())
         copy_dir_to_game(shaders_dir, path)
@@ -518,7 +518,7 @@ def update_server(path, file_name):
 
     # Move additional mods, if any, to the server folder
     print("Searching for additional mods...", total_progress())
-    additional_mods_dir = "additional-mods-server"
+    additional_mods_dir = updater_files_dir + "additional-mods-server"
     copy_dir_to_game(additional_mods_dir, path)
 
     # Move into the server directory
