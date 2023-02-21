@@ -413,11 +413,11 @@ def update_client(path, file_name, shader_answer):
 
     # Move additional mods, if any, to the game folder
     print("Searching for additional mods...", total_progress())
-    additional_mods_dir = updater_files_dir + "additional-mods-client"
+    additional_mods_dir = "additional-mods-client"
     copy_dir_to_game(additional_mods_dir, path)
 
     # Move shaders folder, if user choose so
-    shaders_dir = updater_files_dir + "shaders"
+    shaders_dir = "shaders"
     if shader_answer == "y":
         print("Installing shaders...", total_progress())
         copy_dir_to_game(shaders_dir, path)
@@ -443,29 +443,32 @@ def update_client(path, file_name, shader_answer):
     extract_game_zip(file_name)
 
     # Check if the user has downloaded the Java 9+ version
-    # Move the "patches" folder back one step
-    # Then merge the ".minecraft" as we usually do
     dir_list = os.listdir(os.getcwd())
     for folder in dir_list:
         if folder.startswith("GT New Horizons"):
             print("Installing Java 9+ version of GT New Horizons...", total_progress())
-            # First begin by moving "patches" folder where the instance lays
-            patches_src_path = os.path.join(folder, "patches")
-            parent_dir_path = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
-            patches_dest_path = os.path.join(parent_dir_path, "patches")
+            # First begin by moving the files/folder to where the instance lays
+            for object in os.listdir(folder):
+                if object == ".minecraft":
+                    continue
+                src_path = os.path.join(folder, object)
+                dir_path = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
+                dest_path = os.path.join(dir_path, object)
 
-            shutil.move(patches_src_path, patches_dest_path)
+                # Delete if file/folder exists
+                remove(dest_path)
+                shutil.move(src_path, dest_path)
 
-            # Afterwards move the contents of ".minecraft", i.e. modpack update, to game directory
+            # Move the contents of ".minecraft", i.e. modpack update, to game directory
             minecraft_src_path = os.path.join(folder, ".minecraft")
             for file_name in os.listdir(minecraft_src_path):
                 file_path = os.path.join(minecraft_src_path, file_name)
                 if os.path.isfile(file_path):
                     shutil.move(file_path, file_name)
 
-        # Lastly remove the folder
-        remove(folder)
-        break
+            # Remove the folder and exit loop
+            remove(folder)
+            break
 
     # Add the additional mods to the mod folder
     mods_dir = "./mods"
@@ -513,7 +516,7 @@ def update_server(path, file_name):
 
     # Move additional mods, if any, to the server folder
     print("Searching for additional mods...", total_progress())
-    additional_mods_dir = updater_files_dir + "additional-mods-server"
+    additional_mods_dir = "additional-mods-server"
     copy_dir_to_game(additional_mods_dir, path)
 
     # Move into the server directory
