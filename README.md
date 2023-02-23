@@ -20,7 +20,7 @@ Do you like staying up-to-date with one of the most brutal Minecraft modpacks, b
   - However, Java 9+ client update will not work on other launchers - as it is designed to only work on Prism Launcher.
 
 # Install and Usage
-Simply download the repository, extract it, and then run the appropriate batch file.
+Download the [latest version](https://github.com/FlySlime/GTNH-Updater/archive/refs/heads/main.zip) through GitHub, extract it, then run the appropriate batch file.
 
 # Features
 - ``UPDATE_CLIENT.bat``
