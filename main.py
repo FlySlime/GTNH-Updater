@@ -600,9 +600,9 @@ def update_script():
         "UPDATE_CLIENT.bat",
         "UPDATE_SCRIPT.bat",
         "UPDATE_SERVER.bat",
-        "./files/additional-mods-client",
-        "./files/additional-mods-server",
-        "./files.shaders",
+        "files/additional-mods-client",
+        "files/additional-mods-server",
+        "files/shaders",
     ]
 
     objects = os.listdir(".")
