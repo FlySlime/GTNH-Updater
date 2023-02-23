@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 
 import os
+import requests
 import shutil
 import sys
-import zipfile
-import urllib.request
 import time
+import zipfile
 
 # Global variables
 java_9_answer = ""
@@ -83,20 +83,19 @@ def get_zip_file(path_file, path):
         # Pull latest version from GitHub
         zip_name = "GTNH-Updater-latest.zip"
         github_file_name = "GTNH-Updater-main"
-        urllib.request.urlretrieve(
-            "https://github.com/flyslime/gtnh-updater/archive/refs/heads/main.zip",
-            zip_name,
-        )
+        url = "https://github.com/flyslime/gtnh-updater/archive/refs/heads/main.zip"
+
+        response = requests.get(url)
+        with open(zip_name, "wb") as f:
+            f.write(response.content)
 
         # Extract latest version
         with zipfile.ZipFile(zip_name, "r") as zip_ref:
             zip_ref.extractall(".")
 
-        # Check what version of Java the user would like to use
-        if java_9_answer == "y":
-            latest_version_file = updater_files_dir + "GTNH-java9+-version.txt"
-        else:
-            latest_version_file = updater_files_dir + "GTNH-java8-version.txt"
+        # Download Java 8 version, and apply Java 9+ changes
+        # if user has choosen so
+        latest_version_file = updater_files_dir + "GTNH-java8-version.txt"
 
         # Ensure we are using the latest version from GitHub
         remove(latest_version_file)
@@ -138,11 +137,11 @@ def get_zip_file(path_file, path):
         print(
             "NOTE: This might take a while depending on your internet speed. Have some patience!"
         )
-        urllib.request.urlretrieve(
-            latest_version_url,
-            zip_name,
-        )
         print()
+
+        response = requests.get(latest_version_file)
+        with open(zip_name, "wb") as f:
+            f.write(response.content)
 
     # Tests for some cases where something might go wrong
     zip_file = ""
@@ -247,6 +246,18 @@ def merge_folders(src_folder, dest_folder):
             merge_folders(src_item, dest_item)
         elif not os.path.exists(dest_item):
             shutil.copy2(src_item, dest_item)
+
+
+def get_latest_release_version(repo):
+    """Get latest release version from GitHub for a given repository.
+
+    Example, as of 2023-02-23:
+    print(get_latest_release_version("GTNewHorizons/lwjgl3ify"))
+    => 1.1.32
+    """
+    url = "https://api.github.com/repos/" + repo + "/releases/latest"
+    response = requests.get(url)
+    return response.json()["tag_name"]
 
 
 def add_shaders_to_game(shaders_dir):
@@ -600,10 +611,10 @@ def update_script():
             remove(object)
 
     # Download latest version
-    urllib.request.urlretrieve(
-        "https://github.com/flyslime/gtnh-updater/archive/refs/heads/main.zip",
-        zip_name,
-    )
+    url = "https://github.com/flyslime/gtnh-updater/archive/refs/heads/main.zip"
+    response = requests.get(url)
+    with open(zip_name, "wb") as f:
+        f.write(response.content)
 
     # Extract the zip file
     with zipfile.ZipFile(zip_name, "r") as zip_ref:
@@ -643,8 +654,12 @@ def main():
         os.makedirs(updater_files_dir + "saves")
 
     # Check if the user would like to use Java 9+
-    if arg != "server":
-        check_java_version()
+    # NOTE: Always default to Java 9+ for servers. This is because a
+    #       Java 9+ server allows all clients to join, despite Java version.
+    check_java_version()
+    if arg == "server":
+        global java_9_answer
+        java_9_answer = "y"
 
     # Check if the user wants shaders or not
     shader_answer = ""
