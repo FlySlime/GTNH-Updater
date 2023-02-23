@@ -268,6 +268,43 @@ def get_latest_release_version(repo):
     return response.json()["tag_name"]
 
 
+def add_java_9_to_game():
+    """TODO: ADD COMMENT"""
+    # Move to instance directory
+    os.chdir("..")
+
+    # Retrieve the latest version for the mod from GitHub
+    repo = "GTNewHorizons/lwjgl3ify"
+    version = get_latest_release_version(repo)
+
+    # Download the mod and patches for the launcher
+    mod_name = "lwjgl3ify-" + version
+    main_url = (
+        "https://github.com/GTNewHorizons/lwjgl3ify/releases/latest/download/"
+        + mod_name
+    )
+    jar_url = main_url + ".jar"
+    jar_file = mod_name + ".jar"
+    urllib.request.urlretrieve(jar_url, jar_file)
+
+    patches_url = main_url + "-multimc.zip"
+    patches_file = mod_name + "-multimc.zip"
+    urllib.request.urlretrieve(patches_url, patches_file)
+
+    # Move the jar file into the mod directory
+    for object in os.listdir("."):
+        if object.endswith("minecraft"):
+            shutil.move(jar_file, object + "/mods/" + jar_file)
+            break
+
+    # Extract patches and replace if files already exists
+    with zipfile.ZipFile(patches_file, "r") as zip_ref:
+        zip_ref.extractall(".")
+
+    # Cleanup
+    remove(patches_file)
+
+
 def add_shaders_to_game(folder):
     """Add shaders & configs.
 
@@ -368,7 +405,7 @@ def extract_game_zip(file, pwd=None):
             if not os.path.exists(dst_path):
                 zf.extract(member, ".", pwd)
 
-    print("Cleaning up...", total_progress())
+    print("Cleaning up from extraction...", total_progress())
 
     # Remove zip file
     remove(file)
@@ -512,6 +549,11 @@ def update_client(path, file_name, shader_answer):
     # Add shaders & configs
     if shader_answer == "y":
         add_shaders_to_game(shaders_dir)
+
+    # Apply Java 9+ if the user has choosen so
+    if java_9_answer == "y":
+        print("Applying Java 9+...", total_progress())
+        add_java_9_to_game()
 
 
 def update_server(path, file_name):
