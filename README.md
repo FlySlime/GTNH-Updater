@@ -3,7 +3,6 @@
 ### Table of Contents
 - [Introduction](#introduction)
 - [Prerequisites](#prerequisites)
-  * [Windows](#windows)
 - [Install and Usage](#install-and-usage)
 - [Features](#features)
 - [Automatic Download with Prism Launcher](#automatic-download-with-prism-launcher)
