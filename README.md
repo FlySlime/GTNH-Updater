@@ -15,12 +15,10 @@ Do you like staying up-to-date with one of the most brutal Minecraft modpacks, b
 # Prerequisites
 
 - [Python](https://www.python.org/)
+  - If you are using Windows, the Python version from the [Windows Store](https://apps.microsoft.com/store/detail/python-310/9PJPW5LDXLZ5) was the only one that worked for my friends. This might differ on your computer.
 - [Prism Launcher](https://prismlauncher.org/)
   - This isn't really a requirement to use the script, but rather what was used while coding the script. It may be possible to use other launchers, but I can't gurantee it'll work out of the box. 
   - However, Java 9+ client update will not work on other launchers - as it is designed to only work on Prism Launcher.
-
-## Windows
-The Python version from the [Windows Store](https://apps.microsoft.com/store/detail/python-310/9PJPW5LDXLZ5) was the only one that worked for my friends, however it might differ on your computer.
 
 # Install and Usage
 Simply download the repository, extract it, and then run the appropriate batch file.
