@@ -591,26 +591,26 @@ def update_script():
     zip_name = "GTNH-Updater-latest.zip"
     github_file_name = "GTNH-Updater-main"
 
-    # Remove most files, except save-files and zip files
+    # Define the list of files and folders to remove
     # NOTE: The reason why we don't write the "protected" files instead
     #       is to not accidently delete the entire game directory if
     #       the user wishes to automatically update the game with a launcher.
     to_remove = [
-        "main.py",
-        "UPDATE_CLIENT.bat",
-        "UPDATE_SCRIPT.bat",
-        "UPDATE_SERVER.bat",
-        "files/additional-mods-client",
-        "files/additional-mods-server",
-        "files/shaders",
+        "./main.py",
+        "./UPDATE_CLIENT.bat",
+        "./UPDATE_SCRIPT.bat",
+        "./UPDATE_SERVER.bat",
+        "./files/additional-mods-client",
+        "./files/additional-mods-server",
+        "./files/shaders",
     ]
 
-    objects = os.listdir(".")
-    for object in objects:
-        if object.endswith(".zip"):
-            continue
-        if object in to_remove:
-            remove(object)
+    # Loop through every file and folder in the current directory
+    for root, dirs, files in os.walk("."):
+        for name in files + dirs:
+            path = os.path.join(root, name)
+            if path in to_remove:
+                remove(path)
 
     # Download latest version
     urllib.request.urlretrieve(
@@ -622,10 +622,8 @@ def update_script():
     with zipfile.ZipFile(zip_name, "r") as zip_ref:
         zip_ref.extractall(".")
 
-    # Move the files into the script directory
-    objects = os.listdir(github_file_name)
-    for object in objects:
-        shutil.move(github_file_name + "/" + object, object)
+    # Move the new files & folders into the script directory
+    merge_folders(github_file_name, ".")
 
     # Cleanup
     remove(zip_name)
