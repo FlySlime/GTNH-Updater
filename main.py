@@ -462,9 +462,10 @@ def update_client(path, file_name, shader_answer):
     # Extract and update the game
     extract_game_zip(file_name)
 
-    # Check if the user has downloaded the Java 9+ version
+    # Java 9+ update code
     dir_list = os.listdir(os.getcwd())
     for folder in dir_list:
+        # If the following folder exists => Java 9+ is enabled
         if folder.startswith("GT New Horizons"):
             print("Installing Java 9+ version...", total_progress())
             # First begin by moving the files/folder to where the instance lays
