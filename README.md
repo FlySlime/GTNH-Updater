@@ -24,17 +24,19 @@ Download the [latest version](https://github.com/FlySlime/GTNH-Updater/archive/r
 
 # Features
 - ``UPDATE_CLIENT.bat``
-  - Updates the game.
+  - Updates the client.
   - (OPTIONAL) "Automatic" downloads.
-  - (OPTIONAL) Easily switch between Java8 8 and Java 9+.
-  - (OPTIONAL & CUSTOMIZABLE) Installs shaders.
-  - (OPTIONAL & CUSTOMIZABLE) Installs additional mods for client.
+  - (OPTIONAL) Easily switch between Java 8 and Java 9+.
+  - (OPTIONAL) Install shaders.
+  - (CUSTOMIZABLE) Install additional mods for client.
+
 - ``UPDATE_SERVER.bat``
   - Updates the server.
-  - (OPTIONAL & CUSTOMIZABLE) Installs additional mods for server.
+  - Always updates to Java 9+, supports all version of Java for the client.
+  - (CUSTOMIZABLE) Install additional mods for server.
+
 - ``UPDATE_SCRIPT.bat``
-  - Pulls latest version of the script.
-  - Does not update the game zip file.
+  - Pulls latest version of the script from GitHub.
 
 ## CLI
 If you are feeling cool and want to use CLI, then use one of the following arguments:
