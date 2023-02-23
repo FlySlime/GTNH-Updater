@@ -631,7 +631,7 @@ def update_script():
     remove(zip_name)
     remove(github_file_name)
     print("UPDATE COMPLETE!")
-    print("=> The script, 'GTNH-Updater' has been successfully updated.")
+    print("=> 'GTNH-Updater' has been successfully updated.")
 
 
 def main():
