@@ -232,6 +232,12 @@ def add_dir_to_game(folder, path):
             # Delete the folder from the game directory
             remove(folder)
 
+            # Make sure to delete "files" if there are no contents left
+            parts = folder.split("/", 2)[:2]
+            result = "/".join(parts)
+            if os.listdir(result) == []:
+                remove(result)
+
 
 def merge_folders(src_folder, dest_folder):
     """Merge two folders together.
@@ -262,7 +268,7 @@ def get_latest_release_version(repo):
     return response.json()["tag_name"]
 
 
-def add_shaders_to_game(shaders_dir):
+def add_shaders_to_game(folder):
     """Add shaders & configs.
 
     If OptiFine -> Mod foler
@@ -272,9 +278,9 @@ def add_shaders_to_game(shaders_dir):
     if not os.path.isdir("shaderpacks"):
         os.mkdir("shaderpacks")
 
-    shader_files = os.listdir(shaders_dir)
+    shader_files = os.listdir(folder)
     for file in shader_files:
-        src = shaders_dir + "/" + file
+        src = folder + "/" + file
 
         if file.casefold().startswith("OptiFine".casefold()):
             dst = os.path.join("mods/", file)
@@ -299,7 +305,14 @@ def add_shaders_to_game(shaders_dir):
                 shutil.move(src, dst)
 
     if not updater_auto_update:
-        remove(shaders_dir)
+        # Delete the folder from the game directory
+        remove(folder)
+
+        # Make sure to delete "files" if there are no contents left
+        parts = folder.split("/", 2)[:2]
+        result = "/".join(parts)
+        if os.listdir(result) == []:
+            remove(result)
 
 
 def remove(object):
