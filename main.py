@@ -5,6 +5,7 @@ import requests
 import shutil
 import sys
 import time
+import urllib.request
 import zipfile
 
 # Global variables
@@ -83,11 +84,11 @@ def get_zip_file(path_file, path):
         # Pull latest version from GitHub
         zip_name = "GTNH-Updater-latest.zip"
         github_file_name = "GTNH-Updater-main"
-        url = "https://github.com/flyslime/gtnh-updater/archive/refs/heads/main.zip"
 
-        response = requests.get(url)
-        with open(zip_name, "wb") as f:
-            f.write(response.content)
+        urllib.request.urlretrieve(
+            "https://github.com/flyslime/gtnh-updater/archive/refs/heads/main.zip",
+            zip_name,
+        )
 
         # Extract latest version
         with zipfile.ZipFile(zip_name, "r") as zip_ref:
@@ -139,9 +140,10 @@ def get_zip_file(path_file, path):
         )
         print()
 
-        response = requests.get(latest_version_file)
-        with open(zip_name, "wb") as f:
-            f.write(response.content)
+        urllib.request.urlretrieve(
+            latest_version_url,
+            zip_name,
+        )
 
     # Tests for some cases where something might go wrong
     zip_file = ""
@@ -611,10 +613,10 @@ def update_script():
             remove(object)
 
     # Download latest version
-    url = "https://github.com/flyslime/gtnh-updater/archive/refs/heads/main.zip"
-    response = requests.get(url)
-    with open(zip_name, "wb") as f:
-        f.write(response.content)
+    urllib.request.urlretrieve(
+        "https://github.com/flyslime/gtnh-updater/archive/refs/heads/main.zip",
+        zip_name,
+    )
 
     # Extract the zip file
     with zipfile.ZipFile(zip_name, "r") as zip_ref:
