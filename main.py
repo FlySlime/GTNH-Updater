@@ -313,12 +313,31 @@ def remove(object):
 def remove_configs(protected):
     """Remove all config files/folders except a select few."""
     try:
-        config_dir = "./config"
-        configs = os.listdir(config_dir)
-        for config in configs:
-            if config in protected:
-                continue
-            remove(config_dir + "/" + config)
+        for root, dirs, files in os.walk("./config"):
+            # Create a copy of the dirs list to avoid modifying the original list
+            # While iterating over it
+            dirs_copy = dirs[:]
+            for dirname in dirs_copy:
+                # Construct the full directory path
+                dir_path = os.path.join(root, dirname)
+                # Check if the directory is in the protected list
+                if any(
+                    os.path.normpath(dir_path).endswith(os.path.normpath(p))
+                    for p in protected
+                ):
+                    # Remove the directory from the list of directories to be searched
+                    dirs.remove(dirname)
+            for filename in files:
+                # Construct the full file path
+                file_path = os.path.join(root, filename)
+                # Check if the file is not in the protected list
+                if any(
+                    os.path.normpath(file_path).endswith(os.path.normpath(p))
+                    for p in protected
+                ):
+                    continue
+                # Delete the file
+                os.remove(file_path)
     except:
         print(
             "ERROR: Invalid path, double-check that the path has the folders: 'config', 'mods', etc."
@@ -457,11 +476,9 @@ def update_client(path, file_name, shader_answer):
     os.chdir(path)
 
     # Remove certain config folders
-    # FIXME: Currently we can't ignore a file within a folder
-    #       for example "GregTech/GregTech.cfg"
     protected = [
-        "GregTech",
-        "NEI",
+        "GregTech/GregTech.cfg",
+        "NEI/",
         "betterquesting.cfg",
         "InvTweaks.cfg",
         "InGameInfoXML.cfg",
@@ -554,12 +571,10 @@ def update_server(path, file_name):
     os.chdir(path)
 
     # Remove certain config folders
-    # FIXME: Currently we can't ignore a file within a folder
-    #       for example "GregTech/GregTech.cfg"
     protected = [
-        "GregTech",
-        "aroma1997",
-        "JourneyMapServer",
+        "GregTech/GregTech.cfg",
+        "aroma1997/",
+        "JourneyMapServer/",
         "Morpheus.cfg",
     ]
     remove_configs(protected)
