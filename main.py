@@ -663,31 +663,6 @@ def main():
         path = get_game_path(server_path, "server")
         zip_file = get_zip_file(server_path, path)
         update_server(path, zip_file)
-
-    elif arg == "both":
-        # Save script directory so we can return to it for server update
-        script_directory = os.getcwd()
-
-        # Client update
-        path = get_game_path(client_path, "client")
-        zip_file = get_zip_file(client_path, path)
-        update_client(path, zip_file, shader_answer)
-        print()
-
-        # Refresh progress
-        global progress_bar
-        progress_bar = 0
-        global max_progress
-        max_progress = "4"
-
-        # Jump back to script directory
-        os.chdir(script_directory)
-
-        # Server update
-        path = get_game_path(server_path, "server")
-        zip_file = get_zip_file(server_path, path)
-        update_server(path, zip_file)
-
     else:
         print("ERROR: Invalid argument.")
         exit()

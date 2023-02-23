@@ -42,14 +42,12 @@ If you are feeling cool and want to use CLI, then use one of the following argum
 ```sh
 $ python main.py client
 ```
+
 - Update server:
 ```sh
 $ python main.py server
 ```
-- Update both client and server:
-```sh
-$ python main.py both
-```
+
 - Update script:
 ```sh
 $ python main.py script
