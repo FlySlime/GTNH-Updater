@@ -178,8 +178,9 @@ def get_zip_file(path_file, path):
         # If so, set a flag and skip the copy
         if (current_absolute_path + "/" + zip_file) == game_dir_zip_file:
             print(
-                "Detected script running within the game-directory, setting launcher flag...\n"
+                "Detected script running within the game-directory, setting launcher flag..."
             )
+            print()
             global updater_auto_update
             updater_auto_update = True
 
@@ -681,9 +682,8 @@ def main():
     try:
         sys.argv[1]
     except:
-        print(
-            "ERROR: No arguments given. Use 'client', 'server', 'script', or 'both'.\n"
-        )
+        print("ERROR: No arguments given. Use 'client', 'server', 'script', or 'both'.")
+        print()
         print("For example:")
         print("> python main.py client")
         exit()
