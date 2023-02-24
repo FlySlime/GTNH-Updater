@@ -285,21 +285,25 @@ def get_latest_release_version(repo):
 def add_java_9_to_game(mods_dir):
     """TODO: ADD COMMENT"""
     # Retrieve the latest version for the mod from GitHub
-    repo = "GTNewHorizons/lwjgl3ify"
+    mod_name = "lwjgl3ify"
+    repo = "GTNewHorizons/" + mod_name
     version = get_latest_release_version(repo)
 
     # Set variable names to be used
-    mod_name = "lwjgl3ify-" + version
+    mod_name_latest = mod_name + "-" + version
     main_url = (
         "https://github.com/GTNewHorizons/lwjgl3ify/releases/latest/download/"
-        + mod_name
+        + mod_name_latest
     )
 
     jar_url = main_url + ".jar"
-    jar_file = mod_name + ".jar"
+    jar_file = mod_name_latest + ".jar"
 
     patches_url = main_url + "-multimc.zip"
-    patches_file = mod_name + "-multimc.zip"
+    patches_file = mod_name_latest + "-multimc.zip"
+
+    forge_url = main_url + "-forgePatches.jar"
+    forge_file = mod_name + "-forgePatches.jar"
 
     if arg == "client":
         # Move to instance directory
@@ -323,8 +327,9 @@ def add_java_9_to_game(mods_dir):
         remove(patches_file)
 
     elif arg == "server":
-        # Download the mod
+        # Download the mod and forge patches
         urllib.request.urlretrieve(jar_url, jar_file)
+        urllib.request.urlretrieve(forge_url, forge_file)
 
         # Move the jar file into the mod directory
         shutil.move(jar_file, mods_dir + jar_file)
