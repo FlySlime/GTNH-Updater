@@ -9,6 +9,7 @@ import urllib.request
 import zipfile
 
 # Global variables
+arg = ""
 java_9_answer = ""
 max_progress = "4"
 progress_bar = 0
@@ -283,39 +284,50 @@ def get_latest_release_version(repo):
 
 def add_java_9_to_game(mods_dir):
     """TODO: ADD COMMENT"""
-    # Move to instance directory
-    os.chdir("..")
-
     # Retrieve the latest version for the mod from GitHub
     repo = "GTNewHorizons/lwjgl3ify"
     version = get_latest_release_version(repo)
 
-    # Download the mod and patches for the launcher
+    # Set variable names to be used
     mod_name = "lwjgl3ify-" + version
     main_url = (
         "https://github.com/GTNewHorizons/lwjgl3ify/releases/latest/download/"
         + mod_name
     )
+
     jar_url = main_url + ".jar"
     jar_file = mod_name + ".jar"
-    urllib.request.urlretrieve(jar_url, jar_file)
 
     patches_url = main_url + "-multimc.zip"
     patches_file = mod_name + "-multimc.zip"
-    urllib.request.urlretrieve(patches_url, patches_file)
 
-    # Move the jar file into the mod directory
-    for object in os.listdir("."):
-        if object.endswith("minecraft"):
-            shutil.move(jar_file, object + "/" + mods_dir + jar_file)
-            break
+    if arg == "client":
+        # Move to instance directory
+        os.chdir("..")
 
-    # Extract patches and replace if files already exists
-    with zipfile.ZipFile(patches_file, "r") as zip_ref:
-        zip_ref.extractall(".")
+        # Download the mod and patches for the launcher
+        urllib.request.urlretrieve(jar_url, jar_file)
+        urllib.request.urlretrieve(patches_url, patches_file)
 
-    # Cleanup
-    remove(patches_file)
+        # Move the jar file into the mod directory
+        for object in os.listdir("."):
+            if object.endswith("minecraft"):
+                shutil.move(jar_file, object + "/" + mods_dir + jar_file)
+                break
+
+        # Extract patches and replace if files already exists
+        with zipfile.ZipFile(patches_file, "r") as zip_ref:
+            zip_ref.extractall(".")
+
+        # Cleanup
+        remove(patches_file)
+
+    elif arg == "server":
+        # Download the mod
+        urllib.request.urlretrieve(jar_url, jar_file)
+
+        # Move the jar file into the mod directory
+        shutil.move(jar_file, mods_dir + jar_file)
 
 
 def remove_java_9_from_game(mods_dir):
@@ -646,6 +658,10 @@ def update_server(path, file_name):
     # NOTE: Check the version of this mod every "server-pack" update
     add_dir_to_game(additional_mods_dir, mods_dir)
 
+    # Apply Java 9+ to the server
+    print("Applying Java 9+...", total_progress())
+    add_java_9_to_game(mods_dir)
+
 
 def update_script():
     print("Pulling the latest version of 'GTNH-Updater'...")
@@ -704,6 +720,9 @@ def main():
         print("For example:")
         print("> python main.py client")
         exit()
+
+    # Save the argument globally, used when we are applying Java 9+ for client/server
+    global arg
     arg = sys.argv[1]
 
     if arg == "script":
@@ -718,10 +737,14 @@ def main():
     # Check if the user would like to use Java 9+
     # NOTE: Always default to Java 9+ for servers. This is because a
     #       Java 9+ server allows all clients to join, despite Java version.
-    check_java_version()
     if arg == "server":
         global java_9_answer
         java_9_answer = "y"
+
+        global max_progress
+        max_progress = str(int(max_progress) + 1)
+    else:
+        check_java_version()
 
     # Check if the user wants shaders or not
     shader_answer = ""
