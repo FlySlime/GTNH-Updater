@@ -269,7 +269,7 @@ def get_latest_release_version(repo):
     return response.json()["tag_name"]
 
 
-def add_java_9_to_game():
+def add_java_9_to_game(mods_dir):
     """TODO: ADD COMMENT"""
     # Move to instance directory
     os.chdir("..")
@@ -295,7 +295,7 @@ def add_java_9_to_game():
     # Move the jar file into the mod directory
     for object in os.listdir("."):
         if object.endswith("minecraft"):
-            shutil.move(jar_file, object + "/mods/" + jar_file)
+            shutil.move(jar_file, object + "/" + mods_dir + jar_file)
             break
 
     # Extract patches and replace if files already exists
@@ -304,6 +304,15 @@ def add_java_9_to_game():
 
     # Cleanup
     remove(patches_file)
+
+
+def remove_java_9_from_game(mods_dir):
+    """TODO: ADD COMMENT"""
+    # Move to instance directory
+    os.chdir("..")
+
+    # Only file required to remove to go back to Java 8
+    remove("patches/")
 
 
 def add_shaders_to_game(folder):
@@ -364,7 +373,7 @@ def remove(object):
 def remove_configs(protected):
     """Remove all config files/folders except a select few."""
     try:
-        for root, dirs, files in os.walk("./config"):
+        for root, dirs, files in os.walk("./config/"):
             # Create a copy of the dirs list to avoid modifying the original list
             # While iterating over it
             dirs_copy = dirs[:]
@@ -544,7 +553,7 @@ def update_client(path, file_name, shader_answer):
     extract_game_zip(file_name)
 
     # Add the additional mods to the mod folder
-    mods_dir = "./mods"
+    mods_dir = "./mods/"
     add_dir_to_game(additional_mods_dir, mods_dir)
 
     # Add shaders & configs
@@ -554,7 +563,9 @@ def update_client(path, file_name, shader_answer):
     # Apply Java 9+ if the user has choosen so
     if java_9_answer == "y":
         print("Applying Java 9+...", total_progress())
-        add_java_9_to_game()
+        add_java_9_to_game(mods_dir)
+    else:
+        remove_java_9_from_game(mods_dir)
 
 
 def update_server(path, file_name):
@@ -617,7 +628,7 @@ def update_server(path, file_name):
     extract_game_zip(file_name)
 
     # Remove client-side mods
-    mods_dir = "./mods"
+    mods_dir = "./mods/"
     mods = os.listdir(mods_dir)
     for mod in mods:
         for client_mod in client_side_mods:
@@ -626,7 +637,6 @@ def update_server(path, file_name):
 
     # Add the server version of "JourneyMap", and other additional mods
     # NOTE: Check the version of this mod every "server-pack" update
-    mods_dir = "./mods"
     add_dir_to_game(additional_mods_dir, mods_dir)
 
 
