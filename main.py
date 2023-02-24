@@ -38,6 +38,18 @@ def get_game_path(path_file, arg):
             print(
                 "Where is the GT New Horizons server located? (Where 'config', 'mods', etc, are stored.)"
             )
+            print()
+            print(
+                "WARNING: If you are hosting a server, make sure to download the server-pack for Java 9+ BEFORE updating.",
+            )
+            print()
+            print(
+                "Java 9+ is used as default for the server, since it allows BOTH Java 8 clients and Java 9+ clients to join."
+            )
+            print()
+            print(
+                "The updater can't migrate a server from Java 8 -> Java 9+. It can only update Java 9+ -> Java 9+."
+            )
         path = input("> ")
         print()
         with open(path_file, "w") as f:
@@ -474,12 +486,7 @@ def check_java_version():
             "Would you like to use the new and faster, but very experimental, version of Java for GT:NH? (y/n)"
         )
         print()
-        print("WARNING 1: Java 9+ ONLY works for Prism Launcher currently.")
-        print()
-        print(
-            "WARNING 2: The updater does NOT support Java 9+ for updating servers.",
-            "Only use if you intend on manually updating your servers for now!",
-        )
+        print("WARNING: Java 9+ ONLY works with Prism Launcher.")
         global java_9_answer
         java_9_answer = input("> ")
         print()
