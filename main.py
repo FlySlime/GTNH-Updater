@@ -283,7 +283,7 @@ def get_latest_release_version(repo):
 
 
 def add_java_9_to_game(mods_dir):
-    """TODO: ADD COMMENT"""
+    """Add/update Java 9+ for client/server."""
     # Retrieve the latest version for the mod from GitHub
     mod_name = "lwjgl3ify"
     repo = "GTNewHorizons/" + mod_name
@@ -336,7 +336,10 @@ def add_java_9_to_game(mods_dir):
 
 
 def remove_java_9_from_game():
-    """TODO: ADD COMMENT"""
+    """Remove Java 9+ support from the client.
+
+    Only thing that is required to change if the user has downloaded Java 9+ version
+    is to delete the "patches" folder located in the instance folder."""
     # Move to instance directory
     os.chdir("..")
 
