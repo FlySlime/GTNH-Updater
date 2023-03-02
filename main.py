@@ -335,7 +335,7 @@ def add_java_9_to_game(mods_dir):
         shutil.move(jar_file, mods_dir + jar_file)
 
 
-def remove_java_9_from_game(mods_dir):
+def remove_java_9_from_game():
     """TODO: ADD COMMENT"""
     # Move to instance directory
     os.chdir("..")
@@ -589,7 +589,7 @@ def update_client(path, file_name, shader_answer):
         print("Applying Java 9+...", total_progress())
         add_java_9_to_game(mods_dir)
     else:
-        remove_java_9_from_game(mods_dir)
+        remove_java_9_from_game()
 
 
 def update_server(path, file_name):
