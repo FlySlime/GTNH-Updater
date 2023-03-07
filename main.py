@@ -19,10 +19,10 @@ updater_saves_dir = updater_files_dir + "saves/"
 
 
 def total_progress():
-    """Keeps count of progress and returns the string in format (X/Y)."""
+    """Keeps count of progress and returns the string in format [X/y]."""
     global progress_bar
     progress_bar += 1
-    return "(" + str(progress_bar) + "/" + max_progress + ")"
+    return "[" + str(progress_bar) + "/" + max_progress + "]"
 
 
 def get_game_path(path_file, arg):
