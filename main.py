@@ -77,7 +77,7 @@ def get_zip_file(path_file, path):
     auto_download_answer = "n"
     if not os.path.exists(auto_download_file):
         print(
-            "Would you like to 'automatically' download the latest version of the game? (y/n)"
+            "Would you like to 'automatically' download the latest version of the game? [Y/n]"
         )
         auto_download_answer = input("> ")
         print()
@@ -462,7 +462,7 @@ def check_shaders():
     """Check if the user wants shaders or not. Remembers the answer."""
     shader_file = updater_saves_dir + "shaders.txt"
     if not os.path.isfile(shader_file):
-        print("Would you like to install shaders? Expect a drop in 10-40 fps. (y/n)")
+        print("Would you like to install shaders? Expect a drop in 10-40 fps. [Y/n]")
         shader_answer = input("> ")
         print()
 
@@ -503,7 +503,7 @@ def check_java_version():
     java_version_file = updater_saves_dir + "java-version.txt"
     if not os.path.isfile(java_version_file):
         print(
-            "Would you like to use the new and faster, but very experimental, version of Java for GT:NH? (y/n)"
+            "Would you like to use the new and faster, but very experimental, version of Java for GT:NH? [Y/n]"
         )
         print()
         print("WARNING: Java 9+ ONLY works with Prism Launcher.")
