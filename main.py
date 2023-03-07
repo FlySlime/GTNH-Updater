@@ -79,7 +79,7 @@ def get_zip_file(path_file, path):
         print(
             "Would you like to 'automatically' download the latest version of the game? [Y/n]"
         )
-        auto_download_answer = input("> ")
+        auto_download_answer = input("> ").casefold()
         print()
         print(
             "NOTE: Expect the version to be bumped by me within a couple of hours after a new update is released.",
@@ -463,7 +463,7 @@ def check_shaders():
     shader_file = updater_saves_dir + "shaders.txt"
     if not os.path.isfile(shader_file):
         print("Would you like to install shaders? Expect a drop in 10-40 fps. [Y/n]")
-        shader_answer = input("> ")
+        shader_answer = input("> ").casefold()
         print()
 
         if shader_answer == "y":
@@ -508,7 +508,7 @@ def check_java_version():
         print()
         print("WARNING: Java 9+ ONLY works with Prism Launcher.")
         global java_9_answer
-        java_9_answer = input("> ")
+        java_9_answer = input("> ").casefold()
         print()
 
         if java_9_answer == "y":
