@@ -780,6 +780,9 @@ def main():
     print()
     print("UPDATE COMPLETE!")
     print("=> GT New Horizons", arg, "has successfully been updated.")
+    print()
+    print("NOTE: Remember to manually update the questbook!")
+    print("Use the following command ->", "'/bq_admin default load'")
 
 
 if __name__ == "__main__":
