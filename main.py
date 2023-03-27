@@ -92,7 +92,7 @@ def get_zip_file(path_file, path):
     with open(auto_download_file, "r") as f:
         auto_download_answer = f.readline()
 
-    # Uses the url in "latestversion.txt" to download the "latest" version
+    # Uses the URL in "latestversion.txt" to download the "latest" version
     if auto_download_answer == "y":
         # Pull latest version from GitHub
         zip_name = "GTNH-Updater-latest.zip"
@@ -108,7 +108,7 @@ def get_zip_file(path_file, path):
             zip_ref.extractall(".")
 
         # Download Java 8 version, and apply Java 9+ changes
-        # if user has choosen so
+        # if user has chosen so
         latest_version_file = updater_files_dir + "GTNH-java8-version.txt"
 
         # Ensure we are using the latest version from GitHub
@@ -350,15 +350,15 @@ def remove_java_9_from_game():
 def add_shaders_to_game(folder):
     """Add shaders & configs.
 
-    If OptiFine -> Mod foler
+    If OptiFine -> Mod folder
     If OptiFine config -> Game folder
-    Otherwise, assume it is a shader or shader config -> Shader folder
+    Otherwise, assume it is shaders or shaders config -> shaders folder
     """
     if not os.path.isdir("shaderpacks"):
         os.mkdir("shaderpacks")
 
-    shader_files = os.listdir(folder)
-    for file in shader_files:
+    shaders_files = os.listdir(folder)
+    for file in shaders_files:
         src = folder + "/" + file
 
         if file.casefold().startswith("OptiFine".casefold()):
@@ -460,8 +460,8 @@ def extract_game_zip(file, pwd=None):
 
 def check_shaders():
     """Check if the user wants shaders or not. Remembers the answer."""
-    shader_file = updater_saves_dir + "shaders.txt"
-    if not os.path.isfile(shader_file):
+    shaders_file = updater_saves_dir + "shaders.txt"
+    if not os.path.isfile(shaders_file):
         print("Would you like to install shaders? Expect a drop in 10-40 fps. [Y/n]")
         shader_answer = input("> ").casefold()
         print()
@@ -476,18 +476,18 @@ def check_shaders():
                 "NOTE: Shaders will NOT be installed and this decision will be saved.",
                 end=" ",
             )
-        print("If you change your mind then remove", shader_file)
+        print("If you change your mind then remove", shaders_file)
         print()
 
-        with open(shader_file, "w") as f:
+        with open(shaders_file, "w") as f:
             f.write(shader_answer)
     else:
-        with open(shader_file, "r") as f:
+        with open(shaders_file, "r") as f:
             shader_answer = f.readline()
         if shader_answer == "y":
-            print("NOTE: Found", shader_file, "-> Shaders will be installed.")
+            print("NOTE: Found", shaders_file, "-> Shaders will be installed.")
         else:
-            print("NOTE: Found", shader_file, "-> Shaders will NOT be installed.")
+            print("NOTE: Found", shaders_file, "-> Shaders will NOT be installed.")
         print()
 
     # Adjust the progress bar
