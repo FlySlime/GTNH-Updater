@@ -87,7 +87,7 @@ def get_zip_file(path_file, path):
     auto_download_answer = "n"
     if not os.path.exists(auto_download_file):
         print(
-            "Would you like to 'automatically' download the latest version of the game? [Y/n]"
+            "Would you like to 'automatically' fetch the latest version when running the script? [Y/n]"
         )
         auto_download_answer = input("> ").casefold()
         print()
