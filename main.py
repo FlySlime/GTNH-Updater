@@ -1,12 +1,22 @@
 #!/usr/bin/env python3
 
 import os
-import requests
 import shutil
 import sys
 import time
 import urllib.request
 import zipfile
+
+# Import the "requests" module, however make sure that it is installed
+# on the user's computer. If it is not installed, then run "pip install"
+# to install it.
+try:
+    import requests
+except ImportError:
+    print("The 'requests' module is not installed. Installing it now...")
+    print()
+    os.system("pip install requests")
+    import requests
 
 # Global variables
 arg = ""
