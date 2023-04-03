@@ -16,7 +16,10 @@ except ImportError:
     print("The 'requests' module is not installed. Installing it now...")
     print()
     os.system("pip install requests")
-    import requests
+    print()
+    print("Restarting the script...")
+    print()
+    os.system("python main.py")
 
 # Global variables
 arg = ""
