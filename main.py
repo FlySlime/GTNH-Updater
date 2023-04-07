@@ -298,12 +298,17 @@ def add_java_9_to_game(mods_dir):
     # Retrieve the latest version for the mod from GitHub
     mod_name = "lwjgl3ify"
     repo = "GTNewHorizons/" + mod_name
-    version = get_latest_release_version(repo)
+
+    # FIXME: currently there's a bug with the latest version
+    # version = get_latest_release_version(repo)
+    version = "1.3.3"
 
     # Set variable names to be used
     mod_name_latest = mod_name + "-" + version
     main_url = (
-        "https://github.com/GTNewHorizons/lwjgl3ify/releases/latest/download/"
+        "https://github.com/GTNewHorizons/lwjgl3ify/releases/download/"
+        + version
+        + "/"
         + mod_name_latest
     )
 
