@@ -21,6 +21,7 @@ except ImportError:
 
 # Global variables
 arg = ""
+gtnh_version = ""
 java_9_answer = ""
 max_progress = "4"
 progress_bar = 0
@@ -194,6 +195,19 @@ def get_zip_file(path_file, path):
         )
         exit()
 
+    # Save the GTNH version
+    start_index = zip_file.find("_") + 1
+    while not zip_file[start_index].isdigit():
+        start_index += 1
+
+    end_index = start_index
+    while zip_file[end_index].isdigit() or zip_file[end_index] == ".":
+        end_index += 1
+
+    # Extract the version number
+    global gtnh_version
+    gtnh_version = zip_file[start_index:end_index]
+
     # Copy the update to game directory
     try:
         game_dir_zip_file = path + "/" + zip_file
@@ -301,7 +315,11 @@ def add_java_9_to_game(mods_dir):
 
     # FIXME: currently there's a bug with the latest version
     # version = get_latest_release_version(repo)
-    version = "1.3.3"
+    version = ""
+    if gtnh_version <= "2.3.0":
+        version = "1.1.38"
+    elif gtnh_version <= "2.3.2":
+        version = "1.3.3"
 
     # Set variable names to be used
     mod_name_latest = mod_name + "-" + version
