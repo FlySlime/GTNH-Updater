@@ -118,8 +118,7 @@ def get_zip_file(path_file, path):
         with zipfile.ZipFile(zip_name, "r") as zip_ref:
             zip_ref.extractall(".")
 
-        # Download Java 8 version, and apply Java 9+ changes
-        # if user has chosen so
+        # Download Java 8 version, modify this version to get Java 9+
         latest_version_file = updater_files_dir + "GTNH-java8-version.txt"
 
         # Ensure we are using the latest version from GitHub
