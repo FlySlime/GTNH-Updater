@@ -9,6 +9,7 @@ import zipfile
 
 # Modules that are not built-in to Python.
 try:
+    import curses
     import requests
 except ImportError:
     print("The required modules are not installed.")
