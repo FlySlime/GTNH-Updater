@@ -17,9 +17,7 @@ except ImportError:
     print()
     os.system("pip install requests")
     print()
-    print("Restarting the script...")
-    print()
-    os.system("python main.py")
+    print("Please restart the script!")
 
 # Global variables
 arg = ""
