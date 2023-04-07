@@ -525,7 +525,7 @@ def check_java_version():
     java_version_file = updater_saves_dir + "java-version.txt"
     if not os.path.isfile(java_version_file):
         print(
-            "Would you like to use the new and faster, but very experimental, version of Java for GT:NH? [Y/n]"
+            "Would you like to use the new and faster, but experimental, version of Java for GT:NH? [Y/n]"
         )
         print()
         print("WARNING: Java 9+ ONLY works with Prism Launcher.")
@@ -756,8 +756,23 @@ def main():
     arg = sys.argv[1]
 
     # Create "./files/saves/" if it doesn't exist, as we save the user's data there
-    if not os.path.exists(updater_files_dir + "saves"):
-        os.makedirs(updater_files_dir + "saves")
+    save_directory = updater_files_dir + "saves/"
+    if not os.path.exists(save_directory):
+        os.makedirs(save_directory)
+
+    # Ask user if they wish to auto-update the script
+    auto_update_file = save_directory + "autoupdate.txt"
+    if not os.path.exists(auto_update_file):
+        print("Would you like to auto-update the script? [Y/n]")
+        auto_update_answer = input("> ").casefold()
+        print()
+        with open(auto_update_file, "w") as f:
+            f.write(auto_update_answer)
+    else:
+        with open(auto_update_file, "r") as f:
+            auto_update_answer = f.readline()
+            if auto_update_answer == "y":
+                update_script()
 
     client_path = updater_saves_dir + "gamepath.txt"
     server_path = updater_saves_dir + "serverpath.txt"
