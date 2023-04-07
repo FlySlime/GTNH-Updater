@@ -698,7 +698,6 @@ def update_server(path, file_name):
 
 def update_script():
     print("Pulling the latest version of 'GTNH-Updater'...")
-    print()
     zip_name = "GTNH-Updater-latest.zip"
     github_file_name = "GTNH-Updater-main"
 
