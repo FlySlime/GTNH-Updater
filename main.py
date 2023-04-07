@@ -24,7 +24,7 @@ gtnh_version = ""
 java_9_answer = ""
 max_progress = "5"
 progress_bar = 0
-updater_auto_update = False
+auto_update_on_game_launch = False
 updater_files_dir = "./files/"
 updater_saves_dir = updater_files_dir + "saves/"
 
@@ -217,10 +217,10 @@ def get_zip_file(path_file, path):
                 "Detected script running within the game-directory, setting launcher flag..."
             )
             print()
-            global updater_auto_update
-            updater_auto_update = True
+            global auto_update_on_game_launch
+            auto_update_on_game_launch = True
 
-        if not updater_auto_update:
+        if not auto_update_on_game_launch:
             shutil.copy(zip_file, game_dir_zip_file)
     except:
         print(
@@ -260,12 +260,12 @@ def add_dir_to_game(folder, path):
             if os.path.exists(path + "/" + file):
                 continue
 
-            if updater_auto_update:
+            if auto_update_on_game_launch:
                 shutil.copy(file_name, path)
             else:
                 shutil.move(file_name, path)
 
-        if not updater_auto_update:
+        if not auto_update_on_game_launch:
             # Delete the folder from the game directory
             remove(folder)
 
@@ -384,7 +384,7 @@ def add_shaders_to_game(folder):
 
         if file.casefold().startswith("OptiFine".casefold()):
             dst = os.path.join("mods/", file)
-            if updater_auto_update:
+            if auto_update_on_game_launch:
                 shutil.copy(src, dst)
             else:
                 shutil.move(src, dst)
@@ -392,19 +392,19 @@ def add_shaders_to_game(folder):
         elif file.startswith("options"):
             dst = os.path.join(file)
             remove(file)
-            if updater_auto_update:
+            if auto_update_on_game_launch:
                 shutil.copy(src, dst)
             else:
                 shutil.move(src, dst)
 
         else:
             dst = os.path.join("shaderpacks/", file)
-            if updater_auto_update:
+            if auto_update_on_game_launch:
                 shutil.copy(src, dst)
             else:
                 shutil.move(src, dst)
 
-    if not updater_auto_update:
+    if not auto_update_on_game_launch:
         # Delete the folder from the game directory
         remove(folder)
 
