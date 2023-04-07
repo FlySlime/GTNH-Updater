@@ -295,33 +295,22 @@ def merge_folders(src_folder, dest_folder):
             shutil.copy2(src_item, dest_item)
 
 
-def get_latest_release_version(repo):
-    """Get latest release version from GitHub for a given repository.
-
-    Example, as of 2023-02-23:
-    print(get_latest_release_version("GTNewHorizons/lwjgl3ify"))
-    => 1.1.32
-    """
-    url = "https://api.github.com/repos/" + repo + "/releases/latest"
-    response = requests.get(url)
-    return response.json()["tag_name"]
-
-
 def add_java_9_to_game(mods_dir):
     """Add/update Java 9+ for client/server."""
-    # Retrieve the latest version for the mod from GitHub
-    mod_name = "lwjgl3ify"
-    repo = "GTNewHorizons/" + mod_name
-
-    # FIXME: currently there's a bug with the latest version
-    # version = get_latest_release_version(repo)
+    # Hard-coded values depending on GTNH version
     version = ""
     if gtnh_version <= "2.3.0":
+        # Java 17-19
         version = "1.1.38"
-    elif gtnh_version <= "2.3.2":
+    elif gtnh_version == "2.3.1":
+        # Java 17-19
+        version = "1.3.0"
+    elif gtnh_version == "2.3.2":
+        # Java 17-20
         version = "1.3.3"
 
     # Set variable names to be used
+    mod_name = "lwjgl3ify"
     mod_name_latest = mod_name + "-" + version
     main_url = (
         "https://github.com/GTNewHorizons/lwjgl3ify/releases/download/"
