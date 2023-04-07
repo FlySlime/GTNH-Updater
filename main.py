@@ -7,17 +7,16 @@ import time
 import urllib.request
 import zipfile
 
-# Import the "requests" module, however make sure that it is installed
-# on the user's computer. If it is not installed, then run "pip install"
-# to install it.
+# Modules that are not built-in to Python.
 try:
     import requests
 except ImportError:
-    print("The 'requests' module is not installed. Installing it now...")
+    print("The required modules are not installed.")
     print()
-    os.system("pip install requests")
-    print()
-    print("Please restart the script!")
+    print("Run one of the following:")
+    print("-> Execute the file: 'REQUIREMENTS.bat'")
+    print("-> Execute the command: 'pip install -r requirements.txt'")
+    exit()
 
 # Global variables
 arg = ""
