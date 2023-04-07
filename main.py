@@ -10,7 +10,6 @@ import zipfile
 # Modules that are not built-in to Python.
 try:
     import curses
-    import requests
 except ImportError:
     print("The required modules are not installed.")
     print()
@@ -23,7 +22,7 @@ except ImportError:
 arg = ""
 gtnh_version = ""
 java_9_answer = ""
-max_progress = "4"
+max_progress = "5"
 progress_bar = 0
 updater_auto_update = False
 updater_files_dir = "./files/"
@@ -556,9 +555,9 @@ def check_java_version():
         print()
 
     # Adjust the progress bar
-    if java_9_answer == "y":
+    if java_9_answer == "n":
         global max_progress
-        max_progress = str(int(max_progress) + 1)
+        max_progress = str(int(max_progress) - 1)
 
 
 def update_client(path, file_name, shader_answer):
@@ -691,6 +690,8 @@ def update_server(path, file_name):
     add_dir_to_game(additional_mods_dir, mods_dir)
 
     # Apply Java 9+ to the server
+    # NOTE: Always default to Java 9+ for servers. This is because a
+    #       Java 9+ server allows all clients to join, despite Java version.
     print("Applying Java 9+...", total_progress())
     add_java_9_to_game(mods_dir)
 
@@ -738,8 +739,6 @@ def update_script():
     # Cleanup
     remove(zip_name)
     remove(github_file_name)
-    print("UPDATE COMPLETE!")
-    print("=> 'GTNH-Updater' has been successfully updated.")
 
 
 def main():
@@ -757,37 +756,21 @@ def main():
     global arg
     arg = sys.argv[1]
 
-    if arg == "script":
-        # Update the "GTNH-Updater" by pulling latest zip from GitHub
-        update_script()
-        exit()
-
     # Create "./files/saves/" if it doesn't exist, as we save the user's data there
     if not os.path.exists(updater_files_dir + "saves"):
         os.makedirs(updater_files_dir + "saves")
-
-    # Check if the user would like to use Java 9+
-    # NOTE: Always default to Java 9+ for servers. This is because a
-    #       Java 9+ server allows all clients to join, despite Java version.
-    if arg == "server":
-        global java_9_answer
-        java_9_answer = "y"
-
-        global max_progress
-        max_progress = str(int(max_progress) + 1)
-    else:
-        check_java_version()
-
-    # Check if the user wants shaders or not
-    shader_answer = ""
-    if arg != "server":
-        shader_answer = check_shaders()
 
     client_path = updater_saves_dir + "gamepath.txt"
     server_path = updater_saves_dir + "serverpath.txt"
 
     # Updater
     if arg == "client":
+        # Check what Java version the user wants
+        check_java_version()
+
+        # Check if the user wants shaders or not
+        shader_answer = check_shaders()
+
         path = get_game_path(client_path, "client")
         zip_file = get_zip_file(client_path, path)
         update_client(path, zip_file, shader_answer)
@@ -796,6 +779,10 @@ def main():
         path = get_game_path(server_path, "server")
         zip_file = get_zip_file(server_path, path)
         update_server(path, zip_file)
+
+    elif arg == "script":
+        update_script()
+
     else:
         print("ERROR: Invalid argument.")
         exit()
