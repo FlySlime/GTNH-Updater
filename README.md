@@ -57,6 +57,8 @@ $ python main.py script
 ```
 
 # Automatic Download with Prism Launcher
+**WARNING: This might be buggy and slow, use with caution!**
+
 **NOTE: Make sure you have reasonable internet, e.g. 10+ Mbps, as you will be downloading a 300+ MB file.**
 
 If you want to always update the game and script when running the game, you can do the following:
