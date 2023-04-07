@@ -559,7 +559,25 @@ def check_java_version():
         max_progress = str(int(max_progress) - 1)
 
 
+def check_script_updater():
+    """TODO: add comment"""
+    # Ask user if they wish to auto-update the script
+    auto_update_file = updater_saves_dir + "autoupdate.txt"
+    if not os.path.exists(auto_update_file):
+        print("Would you like to auto-update the script? [Y/n]")
+        auto_update_answer = input("> ").casefold()
+        print()
+        with open(auto_update_file, "w") as f:
+            f.write(auto_update_answer)
+    else:
+        with open(auto_update_file, "r") as f:
+            auto_update_answer = f.readline()
+            if auto_update_answer == "y":
+                update_script()
+
+
 def update_client(path, file_name, shader_answer):
+    """TODO: add comment"""
     # NOTE: Don't include "config", it is handled further down
     to_update = [
         "mods",
@@ -617,6 +635,7 @@ def update_client(path, file_name, shader_answer):
 
 
 def update_server(path, file_name):
+    """TODO: add comment"""
     # NOTE: Don't include "config", it is handled further down
     dirs_to_update = [
         "mods",
@@ -696,6 +715,7 @@ def update_server(path, file_name):
 
 
 def update_script():
+    """TODO: add comment"""
     print("Pulling the latest version of 'GTNH-Updater'...")
     zip_name = "GTNH-Updater-latest.zip"
     github_file_name = "GTNH-Updater-main"
@@ -755,26 +775,14 @@ def main():
     arg = sys.argv[1]
 
     # Create "./files/saves/" if it doesn't exist, as we save the user's data there
-    save_directory = updater_files_dir + "saves/"
-    if not os.path.exists(save_directory):
-        os.makedirs(save_directory)
-
-    # Ask user if they wish to auto-update the script
-    auto_update_file = save_directory + "autoupdate.txt"
-    if not os.path.exists(auto_update_file):
-        print("Would you like to auto-update the script? [Y/n]")
-        auto_update_answer = input("> ").casefold()
-        print()
-        with open(auto_update_file, "w") as f:
-            f.write(auto_update_answer)
-    else:
-        with open(auto_update_file, "r") as f:
-            auto_update_answer = f.readline()
-            if auto_update_answer == "y":
-                update_script()
+    if not os.path.exists(updater_saves_dir):
+        os.makedirs(updater_saves_dir)
 
     client_path = updater_saves_dir + "gamepath.txt"
     server_path = updater_saves_dir + "serverpath.txt"
+
+    # TODO: add comment
+    check_script_updater()
 
     # Updater
     if arg == "client":
